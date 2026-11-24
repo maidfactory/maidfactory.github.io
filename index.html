@@ -87,6 +87,8 @@
     --body: "Nunito", "Gowun Dodum", system-ui, sans-serif;
   }
   html[lang="ko"] { --head: "Gowun Batang", "Fraunces", serif; --body: "Gowun Dodum", "Nunito", system-ui, sans-serif; }
+  /* Korean wraps between words, never in the middle of one ("드릴게 / 요" → "드릴게요") */
+  html[lang="ko"] body { word-break: keep-all; overflow-wrap: break-word; }
   html[lang="ja"] { --head: "Zen Old Mincho", "Fraunces", serif; --body: "Zen Maru Gothic", "Nunito", system-ui, sans-serif; }
 
   * { box-sizing: border-box; }
