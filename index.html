@@ -1035,11 +1035,12 @@ function renderJobPanel() {
 }
 
 /* Hover loop: idle > attack ready > attack, using each maid's in-game timing (UnitCombatAnimator).
-   The attack frame is shown a bit shorter than in battle so the loop doesn't drag. */
-const IDLE_MS = 500;
+   The attack frame is shown shorter than in battle, and the whole loop runs at LOOP_SPEED,
+   so it reads as a quick animation instead of a slideshow. */
+const IDLE_MS = 500, LOOP_SPEED = 1.45;
 function playAttack(pair, timing, cycles) {
   stopAttack(pair);
-  const steps = [[0, IDLE_MS], [1, timing[0] * 1000], [2, timing[1] * 600]];
+  const steps = [[0, IDLE_MS], [1, timing[0] * 1000], [2, timing[1] * 600]].map(([f, ms]) => [f, ms / LOOP_SPEED]);
   let i = 0, left = cycles ? cycles * steps.length : Infinity;
   const tick = () => {
     if (left-- <= 0) { pair.dataset.f = "0"; return; }
