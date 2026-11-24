@@ -17,201 +17,271 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<!-- All fonts below are SIL Open Font License (free for commercial use) -->
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@400;700;800&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Zen+Old+Mincho:wght@700&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0e0a0d;
-    --bg-2: #160f14;
-    --surface: #1d141a;
-    --line: rgba(217, 178, 106, .22);
-    --gold: #d9b26a;
-    --gold-2: #f0d49a;
-    --rose: #b3263a;
-    --rose-2: #d23a4f;
-    --text: #f3e9dd;
-    --muted: #b8a797;
-    --radius: 14px;
+    --wine-950: #1c0a0e;
+    --wine-900: #2a0d13;
+    --wine-800: #3d121b;
+    --wine-600: #6e1f2b;
+    --wine-500: #8e2433;
+    --cream-50: #fcf7ef;
+    --cream-100: #f6ecdf;
+    --cream-200: #ecdcc8;
+    --frame: #b98476;
+    --ink: #3d2624;
+    --ink-soft: #7b5a52;
+    --gold: #d39a3f;
+    --gold-light: #f2cd85;
     --max: 1120px;
+    --head: "Fraunces", "Gowun Batang", serif;
+    --body: "Nunito", "Gowun Dodum", system-ui, sans-serif;
   }
+  html[lang="ko"] { --head: "Gowun Batang", "Fraunces", serif; --body: "Gowun Dodum", "Nunito", system-ui, sans-serif; }
+  html[lang="ja"] { --head: "Zen Old Mincho", "Fraunces", serif; --body: "Zen Maru Gothic", "Nunito", system-ui, sans-serif; }
+
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: "Noto Sans KR", "Noto Sans JP", system-ui, -apple-system, "Segoe UI", sans-serif;
-    font-size: 17px;
-    line-height: 1.7;
+    margin: 0; background: var(--cream-100); color: var(--ink);
+    font-family: var(--body); font-size: 17px; line-height: 1.75;
     -webkit-font-smoothing: antialiased;
   }
-  html[lang="ja"] body { font-family: "Noto Sans JP", "Noto Sans KR", system-ui, sans-serif; }
   img, video { display: block; max-width: 100%; }
-  a { color: var(--gold-2); text-decoration: none; }
-  a:hover { text-decoration: underline; }
+  img { height: auto; } /* keep every image at its own aspect ratio — never squash the art */
+  a { color: inherit; }
   .wrap { width: min(var(--max), 100% - 32px); margin-inline: auto; }
+  h1, h2, h3 { font-family: var(--head); font-weight: 700; line-height: 1.3; margin: 0; }
+  html[lang="en"] h2 { font-weight: 800; letter-spacing: -.01em; }
 
-  /* Header */
+  /* ---------- Header ---------- */
   header.top {
-    position: sticky; top: 0; z-index: 20;
-    background: rgba(14, 10, 13, .82);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; z-index: 30;
+    background: rgba(28, 10, 14, .9); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(211, 154, 63, .35);
   }
-  .top .wrap { display: flex; align-items: center; gap: 20px; height: 64px; }
-  .brand {
-    font-family: "Cinzel", serif; font-weight: 700; letter-spacing: .14em;
-    color: var(--gold-2); font-size: 18px; white-space: nowrap;
-  }
-  .brand:hover { text-decoration: none; }
+  .top .wrap { display: flex; align-items: center; gap: 22px; height: 62px; }
+  .top .logo img { height: 30px; width: auto; }
   nav.links { display: flex; gap: 22px; margin-left: auto; }
-  nav.links a { color: var(--muted); font-size: 15px; }
-  nav.links a:hover { color: var(--text); text-decoration: none; }
-  .lang { display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+  nav.links a { color: var(--cream-200); text-decoration: none; font-size: 15px; font-weight: 700; }
+  nav.links a:hover { color: var(--gold-light); }
+  .lang { display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: rgba(255,255,255,.08); }
   .lang button {
-    background: none; border: 0; color: var(--muted); font: inherit; font-size: 13px;
-    padding: 5px 11px; cursor: pointer;
+    background: none; border: 0; color: var(--cream-200); font: inherit; font-size: 13px; font-weight: 700;
+    padding: 4px 11px; border-radius: 999px; cursor: pointer; white-space: nowrap;
   }
-  .lang button[aria-pressed="true"] { background: var(--gold); color: #1a1208; font-weight: 700; }
-  .lang button { white-space: nowrap; }
+  .lang button[aria-pressed="true"] { background: var(--gold-light); color: var(--wine-900); }
   .lang .short { display: none; }
-  @media (max-width: 760px) {
+  @media (max-width: 820px) {
     nav.links { display: none; }
     .lang { margin-left: auto; }
-    .lang .full { display: none; }
-    .lang .short { display: inline; }
+    .lang .full { display: none; } .lang .short { display: inline; }
   }
 
-  /* Hero */
+  /* ---------- Game-style buttons (in-game button art, 9-slice) ---------- */
+  .gbtn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-width: 230px; min-height: 64px; padding: 0 16px;
+    border: 22px solid transparent; border-image-slice: 48 fill; border-image-width: 22px; border-image-repeat: stretch;
+    font-weight: 800; font-size: 17px; text-decoration: none; line-height: 1.2;
+    transition: transform .15s, filter .15s;
+  }
+  .gbtn > * { margin: -22px 0; }
+  .gbtn:hover { transform: translateY(-2px); filter: brightness(1.06); }
+  .gbtn.rose { border-image-source: url("assets/ui_btn_rose.png"); color: #fff6ee; text-shadow: 0 1px 2px rgba(60,10,20,.6); }
+  .gbtn.cream { border-image-source: url("assets/ui_btn_cream.png"); color: var(--wine-600); }
+  .gbtn svg { width: 22px; height: 22px; flex: none; }
+
+  /* ---------- Hero ---------- */
   .hero {
-    position: relative; overflow: hidden;
-    min-height: min(78vh, 720px);
-    display: flex; align-items: center;
-    background: #120c10 url("assets/keyart.jpg") 22% center / cover no-repeat;
+    position: relative; overflow: hidden; min-height: min(86vh, 760px); display: flex; align-items: center;
+    background: #120a0d url("assets/keyart.jpg") 22% center / cover no-repeat;
   }
   .hero::after {
     content: ""; position: absolute; inset: 0;
     background:
-      linear-gradient(90deg, rgba(14,10,13,0) 30%, rgba(14,10,13,.78) 62%, rgba(14,10,13,.92) 100%),
-      linear-gradient(0deg, var(--bg) 0%, rgba(14,10,13,0) 28%);
+      linear-gradient(90deg, rgba(20,8,11,0) 28%, rgba(20,8,11,.72) 60%, rgba(20,8,11,.9) 100%),
+      linear-gradient(0deg, rgba(20,8,11,.95) 0%, rgba(20,8,11,0) 30%);
   }
   .hero .wrap { position: relative; z-index: 1; display: flex; justify-content: flex-end; }
-  .hero-card { width: min(480px, 100%); text-align: center; padding: 40px 0 56px; }
-  .hero-logo { width: 100%; height: auto; margin: 0 auto 10px; filter: drop-shadow(0 6px 24px rgba(0,0,0,.6)); }
-  .tagline { font-size: clamp(18px, 2.3vw, 22px); font-weight: 700; margin: 0 0 6px; }
-  .release {
-    display: inline-block; margin: 6px 0 22px; padding: 5px 14px;
-    border: 1px solid var(--gold); border-radius: 999px; color: var(--gold-2); font-size: 15px;
+  .hero-card { width: min(560px, 100%); text-align: center; padding: 40px 0 64px; }
+  /* Same layout as the in-game Title scene: both sprites share a 1774x887 canvas,
+     Title_Deco at scale 0.65 (y 201) sits behind Title_Image at scale 0.6 (y 205). */
+  .title-lockup { position: relative; width: 100%; aspect-ratio: 1774 / 887; margin: 0 auto 6px; }
+  .title-lockup img { position: absolute; }
+  .title-deco { inset: 0; width: 100%; height: 100%; }
+  .title-logo {
+    width: 92.3077%; height: 92.3077%;   /* 0.60 / 0.65 */
+    left: 3.8462%; top: 3.1525%;         /* centered, then 4 canvas units higher */
+    filter: drop-shadow(0 8px 18px rgba(0,0,0,.5));
   }
-  .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 9px;
-    padding: 13px 22px; border-radius: 10px; font-weight: 700; font-size: 16px;
-    border: 1px solid transparent; transition: transform .15s, background .15s;
-  }
-  .btn:hover { text-decoration: none; transform: translateY(-1px); }
-  .btn-primary { background: var(--rose); color: #fff; box-shadow: 0 8px 24px rgba(179,38,58,.35); }
-  .btn-primary:hover { background: var(--rose-2); }
-  .btn-ghost { border-color: var(--line); color: var(--text); background: rgba(255,255,255,.03); }
-  .btn svg { width: 20px; height: 20px; flex: none; }
-  @media (max-width: 760px) {
-    .hero { background-position: 18% center; align-items: flex-end; min-height: 88vh; }
-    .hero::after { background: linear-gradient(0deg, var(--bg) 0%, rgba(14,10,13,.88) 45%, rgba(14,10,13,.1) 85%); }
+  .tagline { color: var(--cream-50); font-family: var(--head); font-size: clamp(19px, 2.4vw, 24px); margin: 0 0 6px; }
+  .release { color: var(--gold-light); font-weight: 700; margin: 0 0 24px; letter-spacing: .02em; }
+  .cta { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  @media (max-width: 820px) {
+    .hero { background-position: 18% center; align-items: flex-end; min-height: 92vh; }
+    .hero::after { background: linear-gradient(0deg, rgba(20,8,11,.97) 0%, rgba(20,8,11,.86) 46%, rgba(20,8,11,.05) 82%); }
     .hero .wrap { justify-content: center; }
   }
 
-  /* Sections */
-  section { padding: 84px 0; }
-  section.alt { background: var(--bg-2); border-block: 1px solid var(--line); }
-  .eyebrow {
-    font-family: "Cinzel", serif; letter-spacing: .2em; color: var(--gold); font-size: 13px;
-    margin: 0 0 8px;
+  /* ---------- Sections ---------- */
+  section { position: relative; padding: 96px 0; overflow-x: clip; }
+  .hero { overflow: hidden; }
+  .paper {
+    background:
+      radial-gradient(circle at 15% 10%, rgba(255,255,255,.6), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(185,132,118,.14), transparent 45%),
+      var(--cream-100);
   }
-  h2 { font-size: clamp(26px, 3.4vw, 36px); line-height: 1.3; margin: 0 0 18px; }
-  .lead { color: var(--muted); max-width: 720px; margin: 0 0 8px; }
+  .roses {
+    color: var(--cream-50);
+    background:
+      linear-gradient(rgba(28,10,14,.52), rgba(28,10,14,.66)),
+      url("assets/rose_bg.jpg") center / 900px auto repeat, var(--wine-900);
+  }
+  .head { text-align: center; margin-bottom: 44px; }
+  .head h2 { font-size: clamp(28px, 3.8vw, 42px); color: var(--wine-600); }
+  .roses .head h2 { color: var(--gold-light); }
+  .head .sub { color: var(--ink-soft); margin: 10px auto 0; max-width: 640px; }
+  .roses .head .sub { color: var(--cream-200); }
+  .head .divider { width: 240px; margin: 14px auto 0; }
 
-  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 40px; }
-  .feature {
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 26px 24px;
+  /* Prologue */
+  .prologue { display: grid; grid-template-columns: 1.15fr .85fr; gap: 40px; align-items: center; }
+  .prologue .text h2 { font-size: clamp(28px, 3.6vw, 40px); color: var(--wine-600); margin-bottom: 18px; }
+  .prologue .text p { margin: 0 0 14px; }
+  .prologue .name { font-family: var(--head); color: var(--wine-500); font-size: 19px; margin-bottom: 6px; }
+  .quote {
+    margin: 24px 0 0; padding: 18px 22px; position: relative;
+    border: 22px solid transparent; border-image: url("assets/ui_card.png") 40 fill / 22px stretch;
+    font-family: var(--head); font-size: 18px; color: var(--wine-600);
   }
-  .feature .icon {
-    width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center;
-    background: rgba(217,178,106,.12); color: var(--gold-2); margin-bottom: 14px;
+  .quote > * { margin: -12px -6px; }
+  .quote cite { display: block; margin-top: 8px; font-style: normal; font-family: var(--body); font-size: 14px; color: var(--ink-soft); }
+  .prologue .art { justify-self: center; position: relative; }
+  .prologue .art::before {
+    content: ""; position: absolute; inset: 12% -6% 4%; border-radius: 50%;
+    background: radial-gradient(circle, rgba(185,132,118,.28), transparent 68%);
   }
-  .feature .icon svg { width: 24px; height: 24px; }
-  .feature h3 { margin: 0 0 6px; font-size: 19px; }
-  .feature p { margin: 0; color: var(--muted); font-size: 15.5px; }
-  @media (max-width: 860px) { .features { grid-template-columns: 1fr; } }
+  .prologue .art img { position: relative; max-height: 560px; width: auto; }
+  @media (max-width: 860px) {
+    .prologue { grid-template-columns: 1fr; }
+    .prologue .art img { max-height: 420px; }
+  }
 
-  .points { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; padding: 0; list-style: none; }
-  .points li {
-    border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-size: 15px; color: var(--text);
-    background: rgba(255,255,255,.02);
+  /* How to play cards */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card {
+    border: 26px solid transparent; border-image: url("assets/ui_card.png") 40 fill / 26px stretch;
+    text-align: center;
+  }
+  .card > .inner { margin: -10px -4px; }
+  .card .icon { height: 84px; display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 10px; }
+  .card .icon img { height: 76px; width: auto; filter: drop-shadow(0 4px 6px rgba(61,38,36,.25)); }
+  .card .icon.stocks img { height: 58px; }
+  .card h3 { color: var(--wine-600); font-size: 22px; margin-bottom: 6px; }
+  .card p { margin: 0; color: var(--ink-soft); font-size: 15.5px; }
+  @media (max-width: 860px) { .cards { grid-template-columns: 1fr; } }
+  .modes { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 30px; padding: 0; list-style: none; }
+  .modes li {
+    padding: 6px 16px; border-radius: 999px; font-weight: 700; font-size: 15px;
+    background: var(--cream-50); border: 2px solid var(--frame); color: var(--wine-600);
   }
 
-  .video {
-    margin-top: 32px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line);
-    background: #000; aspect-ratio: 16 / 9;
+  /* Household (companions) */
+  .cast { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .member { text-align: center; }
+  .member .stage { position: relative; height: 260px; display: flex; align-items: flex-end; justify-content: center; }
+  .member .stage::before {
+    content: ""; position: absolute; left: 50%; bottom: 8px; width: 190px; height: 190px; transform: translateX(-50%);
+    background: url("assets/ui_circle.png") center / contain no-repeat; opacity: .95;
   }
-  .video video { width: 100%; height: 100%; object-fit: cover; }
+  .member .stage img { position: relative; height: 250px; width: auto; filter: drop-shadow(0 8px 10px rgba(0,0,0,.45)); transition: transform .2s; }
+  .member:hover .stage img { transform: translateY(-6px) rotate(-1.5deg); }
+  .member h3 { color: var(--gold-light); font-size: 24px; margin-top: 14px; }
+  .member .role { color: var(--cream-200); font-size: 15px; margin: 2px 0 10px; }
+  .member .skill {
+    display: inline-block; font-size: 14px; color: var(--wine-900); background: var(--gold-light);
+    padding: 3px 12px; border-radius: 999px; font-weight: 700;
+  }
+  .member .skill-desc { color: var(--cream-200); font-size: 14.5px; margin: 8px 6px 0; opacity: .9; }
+  @media (max-width: 960px) { .cast { grid-template-columns: repeat(2, 1fr); row-gap: 40px; } }
 
-  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 32px; }
+  /* 36 maids parade */
+  .parade { overflow: hidden; position: relative; padding: 10px 0 0; }
+  .parade::before, .parade::after { content: ""; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 1; pointer-events: none; }
+  .parade::before { left: 0; background: linear-gradient(90deg, var(--cream-100), transparent); }
+  .parade::after { right: 0; background: linear-gradient(-90deg, var(--cream-100), transparent); }
+  .track { display: flex; gap: 6px; width: max-content; animation: march 70s linear infinite; }
+  .track img { height: 132px; width: auto; filter: drop-shadow(0 4px 4px rgba(61,38,36,.25)); }
+  .parade:hover .track { animation-play-state: paused; }
+  @keyframes march { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .jobs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 26px; padding: 0; list-style: none; }
+  .jobs li { font-size: 14px; font-weight: 700; color: var(--wine-600); background: var(--cream-50); border: 1.5px solid var(--cream-200); border-radius: 8px; padding: 3px 11px; }
+
+  /* Media */
+  .video-frame {
+    max-width: 900px; margin: 0 auto; padding: 8px; border-radius: 16px;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold) 45%, #9a6526);
+    box-shadow: 0 20px 40px rgba(0,0,0,.45);
+  }
+  .video-frame video { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; background: #000; }
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 30px; }
   .gallery button {
-    padding: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; cursor: zoom-in;
-    background: #000; aspect-ratio: 16 / 9;
+    padding: 0; cursor: zoom-in; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 10px;
+    border: 3px solid rgba(242,205,133,.55); background: #000;
   }
   .gallery img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
-  .gallery button:hover img { transform: scale(1.04); }
+  .gallery button:hover img { transform: scale(1.05); }
   @media (max-width: 760px) { .gallery { grid-template-columns: 1fr 1fr; } }
-
-  dialog.lightbox {
-    padding: 0; border: 0; background: transparent; max-width: min(1400px, 96vw); max-height: 92vh;
-  }
-  dialog.lightbox::backdrop { background: rgba(0,0,0,.86); }
+  dialog.lightbox { padding: 0; border: 0; background: transparent; max-width: min(1400px, 96vw); max-height: 92vh; }
+  dialog.lightbox::backdrop { background: rgba(20,8,11,.9); }
   dialog.lightbox img { max-height: 92vh; width: auto; border-radius: 8px; }
   dialog.lightbox form { position: absolute; top: 8px; right: 8px; }
-  dialog.lightbox button {
-    background: rgba(0,0,0,.6); color: #fff; border: 1px solid rgba(255,255,255,.3);
-    border-radius: 999px; width: 38px; height: 38px; font-size: 20px; cursor: pointer;
-  }
+  dialog.lightbox button { background: rgba(0,0,0,.6); color: #fff; border: 1px solid rgba(255,255,255,.4); border-radius: 999px; width: 38px; height: 38px; font-size: 20px; cursor: pointer; }
 
-  .facts-grid { display: grid; grid-template-columns: 300px 1fr; gap: 40px; align-items: start; margin-top: 8px; }
-  .facts-grid img { border-radius: 12px; border: 1px solid var(--line); width: 100%; height: auto; }
-  table.facts { width: 100%; border-collapse: collapse; }
-  table.facts th, table.facts td { text-align: left; padding: 13px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
-  table.facts th { width: 150px; color: var(--gold); font-weight: 700; font-size: 15px; padding-right: 16px; }
-  table.facts td { color: var(--text); }
+  /* Facts */
+  .facts { display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start; }
+  .facts .capsule { border-radius: 12px; border: 4px solid var(--cream-50); box-shadow: 0 14px 30px rgba(61,38,36,.25); width: 100%; height: auto; }
+  .facts table { width: 100%; border-collapse: collapse; background: var(--cream-50); border-radius: 14px; overflow: hidden; box-shadow: 0 0 0 2px var(--cream-200); }
+  .facts th, .facts td { text-align: left; padding: 13px 18px; border-bottom: 1px solid var(--cream-200); vertical-align: top; }
+  .facts tr:last-child th, .facts tr:last-child td { border-bottom: 0; }
+  .facts th { width: 170px; color: var(--wine-600); font-weight: 700; background: rgba(236,220,200,.45); }
   @media (max-width: 760px) {
-    .facts-grid { grid-template-columns: 1fr; }
-    .facts-grid img { max-width: 260px; margin-inline: auto; }
-    table.facts th { width: 110px; }
+    .facts { grid-template-columns: 1fr; }
+    .facts .capsule { max-width: 240px; margin: 0 auto; }
+    .facts th { width: 108px; padding: 12px; } .facts td { padding: 12px; }
   }
 
-  .studio-card {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 30px;
+  /* Studio */
+  .studio { text-align: center; }
+  .studio .studio-logo { width: min(420px, 80%); margin: 0 auto 18px; }
+  .studio .lead { max-width: 680px; margin: 0 auto 40px; color: var(--cream-200); }
+  .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: center; }
+  .panel {
+    background: rgba(252,247,239,.06); border: 1.5px solid rgba(242,205,133,.35); border-radius: 18px; padding: 28px 24px;
   }
-  .card {
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 24px;
-  }
-  .card h3 { margin: 0 0 8px; font-size: 19px; }
-  .card p { margin: 0 0 14px; color: var(--muted); }
-  .card .mail { font-size: 18px; font-weight: 700; color: var(--gold-2); word-break: break-all; }
-  .socials { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  .panel h3 { color: var(--gold-light); font-size: 22px; margin-bottom: 8px; }
+  .panel p { margin: 0 0 18px; color: var(--cream-200); }
+  .mail { display: inline-block; font-size: 19px; font-weight: 800; color: var(--cream-50); text-decoration: none; border-bottom: 2px solid var(--gold); word-break: break-all; }
+  .socials { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
   .socials a {
-    display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px;
-    border: 1px solid var(--line); color: var(--text); font-size: 15px;
+    display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px; text-decoration: none;
+    background: var(--cream-50); color: var(--wine-600); font-weight: 800; font-size: 15px; transition: transform .15s;
   }
-  .socials a:hover { text-decoration: none; border-color: var(--gold); }
+  .socials a:hover { transform: translateY(-2px); }
   .socials svg { width: 18px; height: 18px; }
-  @media (max-width: 860px) { .studio-card { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) { .contact { grid-template-columns: 1fr; } }
 
-  footer { padding: 36px 0 48px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); }
-  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-  footer .brand { font-size: 15px; }
+  footer { background: var(--wine-950); color: var(--cream-200); padding: 30px 0 40px; font-size: 14px; }
+  footer .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  footer img { height: 24px; width: auto; opacity: .85; }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .btn, .gallery img { transition: none; }
+    .track { animation: none; }
+    .gbtn, .gallery img, .member .stage img { transition: none; }
   }
 </style>
 </head>
@@ -219,11 +289,12 @@
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#top">MAID FACTORY</a>
+    <a class="logo" href="#top" aria-label="MAID FACTORY"><img src="assets/studio_logo_white.png" width="560" height="130" alt="MAID FACTORY"></a>
     <nav class="links" aria-label="Main">
-      <a href="#game" data-i18n="nav_game">Game</a>
+      <a href="#story" data-i18n="nav_story">Story</a>
+      <a href="#play" data-i18n="nav_play">Gameplay</a>
+      <a href="#cast" data-i18n="nav_cast">Characters</a>
       <a href="#media" data-i18n="nav_media">Media</a>
-      <a href="#facts" data-i18n="nav_facts">Fact sheet</a>
       <a href="#studio" data-i18n="nav_studio">Studio</a>
     </nav>
     <div class="lang" role="group" aria-label="Language">
@@ -238,75 +309,153 @@
   <div class="hero">
     <div class="wrap">
       <div class="hero-card">
-        <img class="hero-logo" id="heroLogo" src="assets/logo_en.png" width="900" height="450" alt="Buy the Dip, Milady">
+        <div class="title-lockup">
+          <img class="title-deco" src="assets/title_deco.png" width="1200" height="600" alt="">
+          <img class="title-logo" id="heroLogo" src="assets/logo_en.png" width="1200" height="600" alt="Buy the Dip, Milady">
+        </div>
         <p class="tagline" data-i18n="tagline">The maids handle the fighting. Milady handles the money!</p>
-        <span class="release" data-i18n="release">Out on Steam · December 2, 2026</span>
+        <p class="release" data-i18n="release">Out on Steam · December 2, 2026</p>
         <div class="cta">
-          <a class="btn btn-primary" href="https://store.steampowered.com/app/5382420/Buy_the_Dip_Milady/" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-9.96 9.04l5.35 2.21a2.83 2.83 0 0 1 1.6-.49l2.39-3.46v-.05a3.78 3.78 0 1 1 3.78 3.78h-.09l-3.4 2.43a2.84 2.84 0 0 1-5.62.6L2.3 14.6A10 10 0 1 0 12 2Zm-3.72 15.18-1.23-.5a2.13 2.13 0 1 0 1.16-2.9l1.27.52a1.57 1.57 0 1 1-1.2 2.88Zm8.92-7.42a2.52 2.52 0 1 0-2.52 2.52 2.52 2.52 0 0 0 2.52-2.52Zm-4.4 0a1.89 1.89 0 1 1 1.88 1.89 1.89 1.89 0 0 1-1.88-1.89Z"/></svg>
-            <span data-i18n="cta_wishlist">Wishlist on Steam</span>
+          <a class="gbtn rose" href="https://store.steampowered.com/app/5382420/Buy_the_Dip_Milady/" target="_blank" rel="noopener">
+            <span style="display:inline-flex;align-items:center;gap:10px">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-9.96 9.04l5.35 2.21a2.83 2.83 0 0 1 1.6-.49l2.39-3.46v-.05a3.78 3.78 0 1 1 3.78 3.78h-.09l-3.4 2.43a2.84 2.84 0 0 1-5.62.6L2.3 14.6A10 10 0 1 0 12 2Z"/></svg>
+              <span data-i18n="cta_wishlist">Wishlist on Steam</span>
+            </span>
           </a>
-          <a class="btn btn-ghost" href="https://www.youtube.com/@MaidFactory_gamedev" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8ZM9.7 15.1V8.9l5.8 3.1Z"/></svg>
-            <span data-i18n="cta_video">Watch on YouTube</span>
+          <a class="gbtn cream" href="https://www.youtube.com/@MaidFactory_gamedev" target="_blank" rel="noopener">
+            <span style="display:inline-flex;align-items:center;gap:10px">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8ZM9.7 15.1V8.9l5.8 3.1Z"/></svg>
+              <span data-i18n="cta_video">Watch on YouTube</span>
+            </span>
           </a>
         </div>
       </div>
     </div>
   </div>
 
-  <section id="game">
-    <div class="wrap">
-      <p class="eyebrow">THE GAME</p>
-      <h2 data-i18n="game_title">Pickaxes, contracts and stocks</h2>
-      <p class="lead" data-i18n="game_lead">You play as a young noble lady whose family has lost everything. Mine silver with a pickaxe, sign contracts to summon maids, and send them into battle. While your maids fight, the stock market keeps moving: buy if you think prices will rise, or go short if you think they will fall.</p>
+  <section id="story" class="paper">
+    <div class="wrap prologue">
+      <div class="text">
+        <p class="name" data-i18n="story_name">Shinomiya Rin. Seventeen years old.</p>
+        <h2 data-i18n="story_title">Former noble lady. Current occupation: miner.</h2>
+        <p data-i18n="story_p1">Her father called himself a "genius of investment". Then he put the family fortune into whatever the crowd at the exchange swore would go up. Three times. All three crashed.</p>
+        <p data-i18n="story_p2">The creditors took the manor and the land. All that's left for Rin is a crumbling old house and an abandoned mine her father bought with his last coins. And then, one angry swing of the pickaxe cracks the wall open: silver.</p>
+        <p data-i18n="story_p3">Now she has a plan. Mine the silver, hire maids, play the market, and bring the family back.</p>
+        <blockquote class="quote"><div><span data-i18n="story_quote">"...Of everything Father bought, the first useful thing has finally turned up."</span><cite data-i18n="story_cite">— Rin, holding her pickaxe</cite></div></blockquote>
+      </div>
+      <div class="art"><img src="assets/rin_working.webp" width="500" height="1000" alt="Rin with a pickaxe" data-i18n-alt="rin_alt" loading="lazy"></div>
+    </div>
+  </section>
 
-      <div class="features">
-        <div class="feature">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4.5c2.5-.6 5 .3 6.5 2-2.2-.4-4.3 0-6 1.2"/><path d="M14.5 4.5 9.6 9.4"/><path d="m12.2 7 4.8 4.8"/><path d="m11 10.5-8 8a1.4 1.4 0 0 0 2 2l8-8"/></svg></div>
+  <section id="play" class="paper" style="padding-top:20px">
+    <div class="wrap">
+      <div class="head">
+        <h2 data-i18n="play_title">Pickaxes, contracts and stocks</h2>
+        <img class="divider" src="assets/deco_bottom.png" width="900" height="199" alt="">
+        <p class="sub" data-i18n="play_sub">A 1v1 auto-battle strategy game. Your maids fight on their own, so you can focus on the money.</p>
+      </div>
+      <div class="cards">
+        <div class="card"><div class="inner">
+          <div class="icon"><img src="assets/icon_mine.png" width="128" height="128" alt=""></div>
           <h3 data-i18n="f1_title">Mine silver</h3>
           <p data-i18n="f1_body">Swing your pickaxe and keep the combo going. Not every swing pays off, but honest work keeps the lights on.</p>
-        </div>
-        <div class="feature">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 12h7M9 16h5"/></svg></div>
+        </div></div>
+        <div class="card"><div class="inner">
+          <div class="icon"><img src="assets/icon_contract.png" width="105" height="128" alt=""></div>
           <h3 data-i18n="f2_title">Summon maids</h3>
-          <p data-i18n="f2_body">Spend silver on maid contracts and stack them to send more maids into battle. 36 maids across 12 roles, each with her own fighting style.</p>
-        </div>
-        <div class="feature">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m6 15 4-4 3 3 6-7"/><path d="M15 7h4v4"/></svg></div>
+          <p data-i18n="f2_body">Spend silver on maid contracts and stack them to send more maids into battle. Who you send together matters.</p>
+        </div></div>
+        <div class="card"><div class="inner">
+          <div class="icon stocks"><img src="assets/icon_stock_apple.png" width="96" height="96" alt=""><img src="assets/icon_stock_carrot.png" width="96" height="96" alt=""><img src="assets/icon_stock_chess.png" width="96" height="96" alt=""></div>
           <h3 data-i18n="f3_title">Trade stocks</h3>
           <p data-i18n="f3_body">Buy, or go short. 13 stocks react to the battle in real time. A good trade can turn a losing fight around.</p>
-        </div>
+        </div></div>
       </div>
-
-      <ul class="points">
-        <li data-i18n="p1">Story mode · Endless Tower · Quick Battle</li>
-        <li data-i18n="p2">Ranked online PvP on Steam</li>
-        <li data-i18n="p3">Minigames: Maid Survivor, Market Basket</li>
-        <li data-i18n="p4">No paid gacha</li>
-        <li data-i18n="p5">13 languages</li>
+      <ul class="modes">
+        <li data-i18n="m1">Story Mode</li>
+        <li data-i18n="m2">Endless Tower</li>
+        <li data-i18n="m3">Quick Battle</li>
+        <li data-i18n="m4">Ranked online PvP</li>
+        <li data-i18n="m5">Minigames</li>
+        <li data-i18n="m6">No paid gacha</li>
       </ul>
     </div>
   </section>
 
-  <section id="media" class="alt">
+  <section id="cast" class="roses">
     <div class="wrap">
-      <p class="eyebrow">MEDIA</p>
-      <h2 data-i18n="media_title">See it in action</h2>
-      <div class="video">
+      <div class="head">
+        <h2 data-i18n="cast_title">The household</h2>
+        <img class="divider" src="assets/deco_bottom.png" width="900" height="199" alt="">
+        <p class="sub" data-i18n="cast_sub">Four companions to come home to. The one you bring decides which skill you can use in battle.</p>
+      </div>
+      <div class="cast">
+        <div class="member">
+          <div class="stage"><img src="assets/chibi_rin.webp" width="272" height="440" alt="Rin" loading="lazy"></div>
+          <h3 data-i18n="rin_name">Rin</h3>
+          <p class="role" data-i18n="rin_role">Milady. Former noble, current miner.</p>
+          <span class="skill" data-i18n="rin_skill">Mother Lode</span>
+          <p class="skill-desc" data-i18n="rin_skill_desc">For a while, mining never misses and silver comes in multiplied.</p>
+        </div>
+        <div class="member">
+          <div class="stage"><img src="assets/chibi_shizuka.webp" width="272" height="440" alt="Shizuka" loading="lazy"></div>
+          <h3 data-i18n="shizuka_name">Shizuka</h3>
+          <p class="role" data-i18n="shizuka_role">Head maid. Cannot clean.</p>
+          <span class="skill" data-i18n="shizuka_skill">Sword Dance</span>
+          <p class="skill-desc" data-i18n="shizuka_skill_desc">Leaps into the marked spot and cuts down everything still standing there.</p>
+        </div>
+        <div class="member">
+          <div class="stage"><img src="assets/chibi_maki.webp" width="272" height="440" alt="Maki" loading="lazy"></div>
+          <h3 data-i18n="maki_name">Maki</h3>
+          <p class="role" data-i18n="maki_role">Finance maid. Chart analysis is her specialty.</p>
+          <span class="skill" data-i18n="maki_skill">Emergency Funds</span>
+          <p class="skill-desc" data-i18n="maki_skill_desc">Raises silver on the spot and sends every active stock jumping.</p>
+        </div>
+        <div class="member">
+          <div class="stage"><img src="assets/chibi_akane.webp" width="272" height="440" alt="Akane" loading="lazy"></div>
+          <h3 data-i18n="akane_name">Akane</h3>
+          <p class="role" data-i18n="akane_role">Plunder maid. Name a place, she'll clean it out.</p>
+          <span class="skill" data-i18n="akane_skill">Heist</span>
+          <p class="skill-desc" data-i18n="akane_skill_desc">A few enemy maids follow her and fight on your side for a while.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="maids" class="paper">
+    <div class="wrap">
+      <div class="head">
+        <h2 data-i18n="maids_title">36 maids, 12 jobs</h2>
+        <img class="divider" src="assets/deco_bottom.png" width="900" height="199" alt="">
+        <p class="sub" data-i18n="maids_sub">Some hold the front line, some heal from the back, and some just explode. Every maid is earned by playing.</p>
+      </div>
+    </div>
+    <div class="parade" aria-hidden="true"><div class="track" id="track"></div></div>
+    <div class="wrap"><ul class="jobs" id="jobs"></ul></div>
+  </section>
+
+  <section id="media" class="roses">
+    <div class="wrap">
+      <div class="head">
+        <h2 data-i18n="media_title">See it in action</h2>
+        <img class="divider" src="assets/deco_bottom.png" width="900" height="199" alt="">
+      </div>
+      <div class="video-frame">
         <video src="assets/gameplay.mp4" poster="assets/gameplay_poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Gameplay clip"></video>
       </div>
       <div class="gallery" id="gallery"></div>
     </div>
   </section>
 
-  <section id="facts">
+  <section id="facts" class="paper">
     <div class="wrap">
-      <p class="eyebrow">FACT SHEET</p>
-      <h2 data-i18n="facts_title">At a glance</h2>
-      <div class="facts-grid">
-        <img src="assets/capsule_vertical.jpg" width="600" height="900" alt="Buy the Dip, Milady key art" loading="lazy">
-        <table class="facts">
+      <div class="head">
+        <h2 data-i18n="facts_title">At a glance</h2>
+        <img class="divider" src="assets/deco_bottom.png" width="900" height="199" alt="">
+      </div>
+      <div class="facts">
+        <img class="capsule" src="assets/capsule_vertical.jpg" width="600" height="900" alt="Buy the Dip, Milady key art" loading="lazy">
+        <table>
           <tbody>
             <tr><th data-i18n="k_title">Title</th><td data-i18n="v_title">Buy the Dip, Milady</td></tr>
             <tr><th data-i18n="k_release">Release date</th><td data-i18n="v_release">December 2, 2026</td></tr>
@@ -314,8 +463,8 @@
             <tr><th data-i18n="k_price">Price</th><td data-i18n="v_price">$10.99</td></tr>
             <tr><th data-i18n="k_genre">Genre</th><td data-i18n="v_genre">Auto-battler, management sim, economy</td></tr>
             <tr><th data-i18n="k_modes">Modes</th><td data-i18n="v_modes">Single-player, online PvP (1v1)</td></tr>
-            <tr><th data-i18n="k_lang">Languages</th><td data-i18n="v_lang">13 (English, Korean, Japanese, Simplified and Traditional Chinese, French, German, Spanish, Polish, Portuguese (Brazil and Portugal), Russian, Turkish)</td></tr>
-            <tr><th data-i18n="k_rating">Rating</th><td data-i18n="v_rating">12+ (Game Rating and Administration Committee, Korea)</td></tr>
+            <tr><th data-i18n="k_lang">Languages</th><td data-i18n="v_lang">13</td></tr>
+            <tr><th data-i18n="k_rating">Rating</th><td data-i18n="v_rating">12+</td></tr>
             <tr><th data-i18n="k_dev">Developer / Publisher</th><td>MAID FACTORY</td></tr>
           </tbody>
         </table>
@@ -323,40 +472,25 @@
     </div>
   </section>
 
-  <section id="studio" class="alt">
+  <section id="studio" class="roses studio">
     <div class="wrap">
-      <p class="eyebrow">STUDIO</p>
-      <h2>MAID FACTORY</h2>
+      <img class="studio-logo" src="assets/studio_logo_white.png" width="560" height="130" alt="MAID FACTORY">
       <p class="lead" data-i18n="studio_lead">MAID FACTORY is a one-person indie game studio from South Korea. Our first game, Buy the Dip, Milady, was crowdfunded on Tumblbug in August 2026, reaching 257% of its goal with the support of 131 backers.</p>
-
-      <div class="studio-card">
-        <div class="card">
+      <div class="contact">
+        <div class="panel">
           <h3 data-i18n="press_title">Press &amp; creators</h3>
           <p data-i18n="press_body">Want to cover the game? Email us and we'll send you a Steam key. The press kit has the trailer, logos and screenshots.</p>
-          <div class="socials">
-            <a href="https://naver.me/xnONrWQh" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
-              <span data-i18n="press_kit">Press kit</span>
-            </a>
-          </div>
+          <a class="gbtn cream" href="https://naver.me/xnONrWQh" target="_blank" rel="noopener"><span data-i18n="press_kit">Download press kit</span></a>
         </div>
-        <div class="card">
+        <div class="panel">
           <h3 data-i18n="contact_title">Contact</h3>
-          <p data-i18n="contact_body">Business, press and support:</p>
+          <p data-i18n="contact_body">Business, press and support</p>
           <a class="mail" href="mailto:wnqhdgkr@naver.com">wnqhdgkr@naver.com</a>
-          <div class="socials" style="margin-top:16px">
-            <a href="https://x.com/MaidFactory_dev" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.8 3h3.2l-7 8 8.2 10h-6.4l-5-6.2L5 21H1.8l7.5-8.6L1.5 3h6.6l4.5 5.7Zm-1.1 16.1h1.8L7.2 4.8H5.3Z"/></svg>
-              X
-            </a>
-            <a href="https://www.youtube.com/@MaidFactory_gamedev" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8ZM9.7 15.1V8.9l5.8 3.1Z"/></svg>
-              YouTube
-            </a>
-            <a href="https://store.steampowered.com/app/5382420/Buy_the_Dip_Milady/" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-9.96 9.04l5.35 2.21a2.83 2.83 0 0 1 1.6-.49l2.39-3.46v-.05a3.78 3.78 0 1 1 3.78 3.78h-.09l-3.4 2.43a2.84 2.84 0 0 1-5.62.6L2.3 14.6A10 10 0 1 0 12 2Z"/></svg>
-              Steam
-            </a>
+          <div class="socials">
+            <a href="https://x.com/MaidFactory_dev" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.8 3h3.2l-7 8 8.2 10h-6.4l-5-6.2L5 21H1.8l7.5-8.6L1.5 3h6.6l4.5 5.7Zm-1.1 16.1h1.8L7.2 4.8H5.3Z"/></svg>X</a>
+            <a href="https://www.youtube.com/@MaidFactory_gamedev" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8ZM9.7 15.1V8.9l5.8 3.1Z"/></svg>YouTube</a>
+            <a href="https://www.instagram.com/mero9_218/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram</a>
+            <a href="https://store.steampowered.com/app/5382420/Buy_the_Dip_Milady/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-9.96 9.04l5.35 2.21a2.83 2.83 0 0 1 1.6-.49l2.39-3.46v-.05a3.78 3.78 0 1 1 3.78 3.78h-.09l-3.4 2.43a2.84 2.84 0 0 1-5.62.6L2.3 14.6A10 10 0 1 0 12 2Z"/></svg>Steam</a>
           </div>
         </div>
       </div>
@@ -366,7 +500,7 @@
 
 <footer>
   <div class="wrap">
-    <span class="brand">MAID FACTORY</span>
+    <img src="assets/studio_logo_white.png" width="560" height="130" alt="MAID FACTORY">
     <span>© 2026 MAID FACTORY. All rights reserved.</span>
   </div>
 </footer>
@@ -379,16 +513,33 @@
 <script>
 const I18N = {
   en: {
-    nav_game: "Game", nav_media: "Media", nav_facts: "Fact sheet", nav_studio: "Studio",
+    doc_title: "MAID FACTORY — Buy the Dip, Milady",
+    nav_story: "Story", nav_play: "Gameplay", nav_cast: "Characters", nav_media: "Media", nav_studio: "Studio",
     tagline: "The maids handle the fighting. Milady handles the money!",
     release: "Out on Steam · December 2, 2026",
     cta_wishlist: "Wishlist on Steam", cta_video: "Watch on YouTube",
-    game_title: "Pickaxes, contracts and stocks",
-    game_lead: "You play as a young noble lady whose family has lost everything. Mine silver with a pickaxe, sign contracts to summon maids, and send them into battle. While your maids fight, the stock market keeps moving: buy if you think prices will rise, or go short if you think they will fall.",
+    story_name: "Shinomiya Rin. Seventeen years old.",
+    story_title: "Former noble lady. Current occupation: miner.",
+    story_p1: "Her father called himself a \"genius of investment\". Then he put the family fortune into whatever the crowd at the exchange swore would go up. Three times. All three crashed.",
+    story_p2: "The creditors took the manor and the land. All that's left for Rin is a crumbling old house and an abandoned mine her father bought with his last coins. And then one angry swing of the pickaxe cracks the wall open: silver.",
+    story_p3: "Now she has a plan. Mine the silver, hire maids, play the market, and bring the family back.",
+    story_quote: "\"...Of everything Father bought, the first useful thing has finally turned up.\"",
+    story_cite: "— Rin, holding her pickaxe",
+    rin_alt: "Rin holding a pickaxe",
+    play_title: "Pickaxes, contracts and stocks",
+    play_sub: "A 1v1 auto-battle strategy game. Your maids fight on their own, so you can focus on the money.",
     f1_title: "Mine silver", f1_body: "Swing your pickaxe and keep the combo going. Not every swing pays off, but honest work keeps the lights on.",
-    f2_title: "Summon maids", f2_body: "Spend silver on maid contracts and stack them to send more maids into battle. 36 maids across 12 roles, each with her own fighting style.",
+    f2_title: "Summon maids", f2_body: "Spend silver on maid contracts and stack them to send more maids into battle. Who you send together matters.",
     f3_title: "Trade stocks", f3_body: "Buy, or go short. 13 stocks react to the battle in real time. A good trade can turn a losing fight around.",
-    p1: "Story mode · Endless Tower · Quick Battle", p2: "Ranked online PvP on Steam", p3: "Minigames: Maid Survivor, Market Basket", p4: "No paid gacha", p5: "13 languages",
+    m1: "Story Mode", m2: "Endless Tower", m3: "Quick Battle", m4: "Ranked online PvP", m5: "Minigames", m6: "No paid gacha",
+    cast_title: "The household",
+    cast_sub: "Four companions to come home to. The one you bring decides which skill you can use in battle.",
+    rin_name: "Rin", rin_role: "Milady. Former noble, current miner.", rin_skill: "Mother Lode", rin_skill_desc: "For a while, mining never misses and silver comes in multiplied.",
+    shizuka_name: "Shizuka", shizuka_role: "Head maid. Cannot clean.", shizuka_skill: "Sword Dance", shizuka_skill_desc: "Leaps into the marked spot and cuts down everything still standing there.",
+    maki_name: "Maki", maki_role: "Finance maid. Chart analysis is her specialty.", maki_skill: "Emergency Funds", maki_skill_desc: "Raises silver on the spot and sends every active stock jumping.",
+    akane_name: "Akane", akane_role: "Plunder maid. Name a place, she'll clean it out.", akane_skill: "Heist", akane_skill_desc: "A few enemy maids follow her and fight on your side for a while.",
+    maids_title: "36 maids, 12 jobs",
+    maids_sub: "Some hold the front line, some heal from the back, and some just explode. Every maid is earned by playing.",
     media_title: "See it in action",
     facts_title: "At a glance",
     k_title: "Title", v_title: "Buy the Dip, Milady",
@@ -402,22 +553,39 @@ const I18N = {
     studio_lead: "MAID FACTORY is a one-person indie game studio from South Korea. Our first game, Buy the Dip, Milady, was crowdfunded on Tumblbug in August 2026, reaching 257% of its goal with the support of 131 backers.",
     press_title: "Press & creators",
     press_body: "Want to cover the game? Email us and we'll send you a Steam key. The press kit has the trailer, logos and screenshots.",
-    press_kit: "Press kit",
-    contact_title: "Contact", contact_body: "Business, press and support:",
+    press_kit: "Download press kit",
+    contact_title: "Contact", contact_body: "Business, press and support",
     shot_alt: "Screenshot",
-    doc_title: "MAID FACTORY — Buy the Dip, Milady"
+    jobs: ["Sword","Lancer","Shield","Killer","Archer","Gunner","Magician","Boomer","Breaker","Healer","Buffer","Debuffer"]
   },
   ko: {
-    nav_game: "게임", nav_media: "영상·스크린샷", nav_facts: "게임 정보", nav_studio: "스튜디오",
+    doc_title: "MAID FACTORY — 지금이 저점입니다, 아가씨",
+    nav_story: "이야기", nav_play: "게임 소개", nav_cast: "등장인물", nav_media: "영상·스크린샷", nav_studio: "스튜디오",
     tagline: "싸움은 메이드에게, 돈은 아가씨가!",
     release: "2026년 12월 2일 Steam 출시",
     cta_wishlist: "Steam에서 찜하기", cta_video: "YouTube에서 보기",
-    game_title: "곡괭이, 계약서, 그리고 주식",
-    game_lead: "몰락한 귀족 가문의 아가씨가 되어 가문을 다시 일으키세요. 곡괭이로 은화를 캐고, 계약서로 메이드를 소환해 전투에 보냅니다. 메이드들이 싸우는 동안에도 주가는 계속 움직입니다. 오를 것 같으면 매수하고, 떨어질 것 같으면 공매도를 걸 수 있습니다.",
+    story_name: "시노미야 린, 열일곱 살.",
+    story_title: "전직 귀족 영애, 현직 광부.",
+    story_p1: "아버지는 입버릇처럼 스스로를 '투자의 천재'라 불렀습니다. 그리고 광장 거래소에서 '이건 무조건 오릅니다!'라고 외치는 종목만 골라 전 재산을 걸었죠. 한 번, 두 번, 세 번. 세 번 모두 대폭락이었습니다.",
+    story_p2: "빚쟁이들이 저택과 영지를 싹 가져가고, 린에게 남은 건 쓰러져 가는 낡은 저택 하나와 아버지가 마지막 쌈짓돈으로 산 폐광 하나뿐. 그런데 홧김에 내리찍은 곡괭이에 돌벽이 갈라지고, 그 틈으로 은빛이 보였습니다.",
+    story_p3: "할 일은 정해졌습니다. 은을 캐고, 메이드를 고용하고, 시장을 굴려서 가문을 다시 일으키는 것.",
+    story_quote: "\"...아버지가 산 것 중에서... 처음으로 쓸만한 게 나왔네.\"",
+    story_cite: "— 곡괭이를 쥔 린",
+    rin_alt: "곡괭이를 든 린",
+    play_title: "곡괭이, 계약서, 그리고 주식",
+    play_sub: "1:1 오토배틀 전략 게임. 싸움은 메이드들이 알아서 하니, 아가씨는 돈에만 집중하세요.",
     f1_title: "은화 채굴", f1_body: "곡괭이를 휘둘러 콤보를 이어 가세요. 매번 캐지는 건 아니지만, 정직한 노동은 배신하지 않습니다.",
-    f2_title: "메이드 소환", f2_body: "은화로 계약서를 쓰고, 같은 칸에 겹쳐 쓰면 더 많은 메이드가 출전합니다. 12직군 36명, 저마다 싸우는 방식이 달라요.",
+    f2_title: "메이드 소환", f2_body: "은화로 계약서를 쓰고, 같은 칸에 겹쳐 쓰면 더 많은 메이드가 출전합니다. 누구를 함께 보내느냐가 중요해요.",
     f3_title: "주식 거래", f3_body: "매수, 또는 공매도. 13개 종목이 전황에 따라 실시간으로 움직입니다. 한 번의 좋은 거래가 지던 판을 뒤집을 수도 있어요.",
-    p1: "스토리 · 무한의 탑 · 빠른 대전", p2: "스팀 랭크 온라인 대전", p3: "미니게임: 메이드 서바이버, 시장 바구니", p4: "유료 가챠 없음", p5: "13개 언어 지원",
+    m1: "스토리 모드", m2: "무한의 탑", m3: "빠른 대전", m4: "랭크 온라인 대전", m5: "미니게임", m6: "유료 가챠 없음",
+    cast_title: "저택 식구들",
+    cast_sub: "전투 사이사이 돌아올 저택의 네 사람. 누구를 데려가느냐에 따라 전장에서 쓸 수 있는 스킬이 달라집니다.",
+    rin_name: "린", rin_role: "아가씨. 전직 귀족 영애, 현직 광부.", rin_skill: "노다지", rin_skill_desc: "잠시 동안 채굴이 한 번도 빗나가지 않고, 은화도 몇 배로 나옵니다.",
+    shizuka_name: "시즈카", shizuka_role: "수석 메이드장. 청소는 못 합니다.", shizuka_skill: "검무", shizuka_skill_desc: "조준한 자리에 뛰어들어 서 있는 것을 전부 베어 넘깁니다.",
+    maki_name: "마키", maki_role: "재무 담당 메이드. 차트 분석이 전공.", maki_skill: "긴급 자금", maki_skill_desc: "은화를 즉시 마련하고, 보유 중인 종목을 전부 끌어올립니다.",
+    akane_name: "아카네", akane_role: "약탈 담당 메이드. 말씀만 하시면 반드시 털어 옵니다.", akane_skill: "강탈", akane_skill_desc: "적 메이드 몇 명이 아카네를 따라와 잠시 이쪽 편에서 싸웁니다.",
+    maids_title: "메이드 36명, 직군 12개",
+    maids_sub: "앞에서 버티는 메이드, 뒤에서 치료하는 메이드, 그리고 그냥 터지는 메이드까지. 모든 메이드는 플레이로만 얻습니다.",
     media_title: "플레이 영상과 스크린샷",
     facts_title: "게임 정보",
     k_title: "게임명", v_title: "지금이 저점입니다, 아가씨 (Buy the Dip, Milady)",
@@ -432,21 +600,38 @@ const I18N = {
     press_title: "기자·크리에이터 여러분께",
     press_body: "기사나 방송으로 다뤄 주실 분은 메일로 연락 주세요. 스팀 키를 보내 드립니다. 프레스킷에 트레일러, 로고, 스크린샷이 들어 있어요.",
     press_kit: "프레스킷 받기",
-    contact_title: "연락처", contact_body: "제휴·취재·문의:",
+    contact_title: "연락처", contact_body: "제휴·취재·문의",
     shot_alt: "스크린샷",
-    doc_title: "MAID FACTORY — 지금이 저점입니다, 아가씨"
+    jobs: ["검","창","방패","연격","궁수","총격","마법","자폭","파쇄","치유","강화","약화"]
   },
   ja: {
-    nav_game: "ゲーム", nav_media: "動画・画像", nav_facts: "ゲーム情報", nav_studio: "スタジオ",
+    doc_title: "MAID FACTORY — 今が底値です。お嬢様",
+    nav_story: "ストーリー", nav_play: "ゲーム紹介", nav_cast: "キャラクター", nav_media: "動画・画像", nav_studio: "スタジオ",
     tagline: "戦いはメイドに、お金はお嬢様に！",
     release: "2026年12月2日 Steamにて発売",
     cta_wishlist: "Steamでウィッシュリストに追加", cta_video: "YouTubeで見る",
-    game_title: "つるはし、契約書、そして株",
-    game_lead: "没落した貴族のお嬢様となり、家の再興を目指しましょう。つるはしで銀貨を掘り、契約書でメイドを召喚して戦わせます。メイドたちが戦っている間も株価は動き続け、上がりそうなら買い、下がりそうなら空売りで稼ぐことができます。",
+    story_name: "シノミヤ・リン、十七歳。",
+    story_title: "元貴族令嬢、現在は坑夫。",
+    story_p1: "父は口癖のように自らを「投資の天才」と名乗る人でした。そして広場の取引所で「これは絶対に上がります！」と叫ばれた銘柄にばかり全財産をつぎ込み、一度、二度、三度。三度とも大暴落。",
+    story_p2: "借金取りに屋敷も領地も持っていかれ、リンに残ったのは今にも崩れそうな古い屋敷と、父が最後のへそくりで買った廃坑だけ。ところが、やけになって振り下ろしたつるはしで岩壁が割れ、その隙間から銀色の輝きが――。",
+    story_p3: "やるべきことは決まりました。銀を掘り、メイドを雇い、相場を動かして、家を再興すること。",
+    story_quote: "「……父が買ったものの中で……初めて使えるものが出てきたね。」",
+    story_cite: "― つるはしを握るリン",
+    rin_alt: "つるはしを持つリン",
+    play_title: "つるはし、契約書、そして株",
+    play_sub: "1対1のオートバトル戦略ゲーム。戦いはメイドたちに任せて、お嬢様はお金に集中しましょう。",
     f1_title: "銀貨を掘る", f1_body: "つるはしを振ってコンボをつなげましょう。毎回掘れるとは限りませんが、真面目な労働は裏切りません。",
-    f2_title: "メイドを召喚", f2_body: "銀貨で契約書を書き、同じマスに重ねればより多くのメイドが出撃します。12職種・36人、それぞれ戦い方が違います。",
+    f2_title: "メイドを召喚", f2_body: "銀貨で契約書を書き、同じマスに重ねればより多くのメイドが出撃します。誰を一緒に送り出すかが大切です。",
     f3_title: "株を売買", f3_body: "買うか、空売りか。13銘柄が戦況に合わせてリアルタイムに動きます。一度の好取引が負け戦をひっくり返すことも。",
-    p1: "ストーリー・無限の塔・クイック対戦", p2: "Steamランク対戦（オンライン）", p3: "ミニゲーム：メイドサバイバー、マーケットバスケット", p4: "有料ガチャなし", p5: "13言語対応",
+    m1: "ストーリーモード", m2: "無限の塔", m3: "クイック対戦", m4: "ランク対戦（オンライン）", m5: "ミニゲーム", m6: "有料ガチャなし",
+    cast_title: "屋敷の仲間たち",
+    cast_sub: "戦いの合間に帰ってくる、屋敷の4人。誰を連れて行くかで、戦場で使えるスキルが変わります。",
+    rin_name: "リン", rin_role: "お嬢様。元貴族令嬢、現在は坑夫。", rin_skill: "大鉱脈", rin_skill_desc: "しばらくのあいだ採掘が一度も外れず、銀貨も何倍にもなります。",
+    shizuka_name: "シズカ", shizuka_role: "首席メイド長。掃除はできません。", shizuka_skill: "剣舞", shizuka_skill_desc: "狙った場所に飛び込み、立っているものを残らず斬り伏せます。",
+    maki_name: "マキ", maki_role: "財務担当メイド。チャート分析が専門。", maki_skill: "緊急資金", maki_skill_desc: "銀貨を即座に用意し、保有中の全銘柄を押し上げます。",
+    akane_name: "アカネ", akane_role: "略奪担当メイド。言ってくれれば必ず奪ってきます。", akane_skill: "強奪", akane_skill_desc: "敵メイド数人がアカネについてきて、しばらくこちら側で戦います。",
+    maids_title: "メイド36人、12の職",
+    maids_sub: "前線で踏ん張るメイド、後ろで回復するメイド、そしてただ爆発するメイドまで。メイドはすべてプレイで手に入ります。",
     media_title: "プレイ動画とスクリーンショット",
     facts_title: "ゲーム情報",
     k_title: "タイトル", v_title: "今が底値です。お嬢様（Buy the Dip, Milady）",
@@ -460,16 +645,34 @@ const I18N = {
     studio_lead: "MAID FACTORYは韓国の個人開発インディーゲームスタジオです。第1作『今が底値です。お嬢様』は、2026年8月にクラウドファンディング「Tumblbug」で支援者131名により目標金額の257%を達成しました。",
     press_title: "メディア・クリエイターの皆様へ",
     press_body: "記事や配信で取り上げていただける方は、メールでご連絡ください。Steamキーをお送りします。プレスキットにはトレーラー、ロゴ、スクリーンショットが入っています。",
-    press_kit: "プレスキット",
-    contact_title: "お問い合わせ", contact_body: "ビジネス・取材・サポート：",
+    press_kit: "プレスキットをダウンロード",
+    contact_title: "お問い合わせ", contact_body: "ビジネス・取材・サポート",
     shot_alt: "スクリーンショット",
-    doc_title: "MAID FACTORY — 今が底値です。お嬢様"
+    jobs: ["剣","槍","盾","連撃","弓","銃撃","魔法","自爆","破砕","回復","強化","弱体"]
   }
 };
-const SHOTS = 6;
+
+/* 36 maids: file key per job (art folder names) in display order */
+const JOB_KEYS = ["sword","lence","shield","killer","arrow","gunner","magician","boomer","breaker","heal","buffer","debuffer"];
+const track = document.getElementById("track");
+(function buildParade() {
+  const list = [];
+  for (const r of ["01","02","03"]) for (const j of JOB_KEYS) list.push(`assets/maids/${j}_${r}.webp`);
+  // shuffle lightly so rarities mix, deterministic
+  const order = list.map((s, i) => [((i * 7) % list.length), s]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
+  for (let pass = 0; pass < 2; pass++) {
+    for (const src of order) {
+      const img = document.createElement("img");
+      img.src = src; img.alt = ""; img.loading = "lazy"; img.height = 132;
+      track.appendChild(img);
+    }
+  }
+})();
+
 const gallery = document.getElementById("gallery");
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightboxImg");
+const jobsEl = document.getElementById("jobs");
 
 function pickInitialLang() {
   const q = new URLSearchParams(location.search).get("lang");
@@ -487,16 +690,20 @@ function setLang(lang) {
   document.title = t.doc_title;
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const k = el.dataset.i18n;
-    if (t[k] !== undefined) el.textContent = t[k];
+    if (typeof t[k] === "string") el.textContent = t[k];
   });
+  document.querySelectorAll("[data-i18n-alt]").forEach(el => { const k = el.dataset.i18nAlt; if (t[k]) el.alt = t[k]; });
   document.getElementById("heroLogo").src = "assets/logo_" + lang + ".png";
   document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang ? "true" : "false"));
+
+  jobsEl.innerHTML = "";
+  t.jobs.forEach(name => { const li = document.createElement("li"); li.textContent = name; jobsEl.appendChild(li); });
+
   gallery.innerHTML = "";
-  for (let i = 1; i <= SHOTS; i++) {
+  for (let i = 1; i <= 6; i++) {
     const src = "assets/shot_" + lang + "_" + i + ".jpg";
     const btn = document.createElement("button");
-    btn.type = "button";
-    btn.setAttribute("aria-label", t.shot_alt + " " + i);
+    btn.type = "button"; btn.setAttribute("aria-label", t.shot_alt + " " + i);
     const img = document.createElement("img");
     img.src = src; img.alt = t.shot_alt + " " + i; img.loading = "lazy"; img.width = 1600; img.height = 900;
     btn.appendChild(img);
