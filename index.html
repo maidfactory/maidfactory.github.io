@@ -467,6 +467,9 @@
   }
   .socials a:hover { transform: translateY(-2px); }
   .socials svg { width: 18px; height: 18px; }
+  /* creators request keys themselves on Keymailer / Lurkit; press keep using email */
+  .panel .creator-note { margin: 24px 0 0; padding-top: 18px; border-top: 1px dashed rgba(242,205,133,.3); font-size: 15.5px; }
+  .key-links { margin-top: 12px; }
   @media (max-width: 760px) { .contact { grid-template-columns: 1fr; } }
 
   footer { background: var(--wine-950); color: var(--cream-200); padding: 30px 0 40px; font-size: 14px; }
@@ -673,8 +676,13 @@
       <div class="contact">
         <div class="panel">
           <h3 data-i18n="press_title">Press &amp; creators</h3>
-          <p data-i18n="press_body">Want to cover the game? Email us and we'll send you a Steam key. The press kit has the trailer, logos and screenshots.</p>
+          <p data-i18n="press_body">Writing about the game? Email us and we'll send you a Steam key. The press kit has the trailer, logos and screenshots.</p>
           <a class="gbtn cream" href="https://naver.me/xnONrWQh" target="_blank" rel="noopener"><span data-i18n="press_kit">Download press kit</span></a>
+          <p class="creator-note" data-i18n="creator_body">Streamers and video creators can request a key directly on Keymailer or Lurkit.</p>
+          <div class="socials key-links">
+            <a href="https://www.keymailer.co/g/games/6bc25549" target="_blank" rel="noopener"><span data-i18n="req_keymailer">Request on Keymailer</span> ↗</a>
+            <a href="https://www.lurkit.com/campaigns/buy-the-dip-milady-pre-release-steam-key" target="_blank" rel="noopener"><span data-i18n="req_lurkit">Request on Lurkit</span> ↗</a>
+          </div>
         </div>
         <div class="panel">
           <h3 data-i18n="contact_title">Contact</h3>
@@ -779,7 +787,9 @@ const I18N = {
     k_dev: "Developer / Publisher",
     studio_lead: "MAID FACTORY is a one-person indie game studio from South Korea. Our first game, Buy the Dip, Milady, was crowdfunded on Tumblbug in August 2026, reaching 257% of its goal with the support of 131 backers.",
     press_title: "Press & creators",
-    press_body: "Want to cover the game? Email us and we'll send you a Steam key. The press kit has the trailer, logos and screenshots.",
+    press_body: "Writing about the game? Email us and we'll send you a Steam key. The press kit has the trailer, logos and screenshots.",
+    creator_body: "Streamers and video creators can request a key directly on Keymailer or Lurkit.",
+    req_keymailer: "Request on Keymailer", req_lurkit: "Request on Lurkit",
     press_kit: "Download press kit",
     contact_title: "Contact", contact_body: "Business, press and support",
     shot_alt: "Screenshot",
@@ -853,7 +863,9 @@ const I18N = {
     k_dev: "개발·배급",
     studio_lead: "MAID FACTORY는 대한민국의 1인 인디 게임 스튜디오입니다. 첫 작품 《지금이 저점입니다, 아가씨》는 2026년 8월 텀블벅 펀딩에서 후원자 131명과 함께 목표 금액의 257%를 달성했습니다.",
     press_title: "기자·크리에이터 여러분께",
-    press_body: "기사나 방송으로 다뤄 주실 분은 메일로 연락 주세요. 스팀 키를 보내 드립니다. 프레스킷에 트레일러, 로고, 스크린샷이 들어 있어요.",
+    press_body: "기사로 다뤄 주실 기자님은 메일로 연락 주세요. 스팀 키를 보내 드릴게요. 프레스킷에는 트레일러, 로고, 스크린샷이 들어 있어요.",
+    creator_body: "스트리머·유튜버분들은 Keymailer나 Lurkit에서 바로 키를 신청하실 수 있어요.",
+    req_keymailer: "Keymailer에서 키 신청", req_lurkit: "Lurkit에서 키 신청",
     press_kit: "프레스킷 받기",
     contact_title: "연락처", contact_body: "제휴·취재·문의",
     shot_alt: "스크린샷",
@@ -927,7 +939,9 @@ const I18N = {
     k_dev: "開発・販売",
     studio_lead: "MAID FACTORYは韓国の個人開発インディーゲームスタジオです。第1作『今が底値です。お嬢様』は、2026年8月にクラウドファンディング「Tumblbug」で支援者131名により目標金額の257%を達成しました。",
     press_title: "メディア・クリエイターの皆様へ",
-    press_body: "記事や配信で取り上げていただける方は、メールでご連絡ください。Steamキーをお送りします。プレスキットにはトレーラー、ロゴ、スクリーンショットが入っています。",
+    press_body: "記事で取り上げていただけるメディアの方は、メールでご連絡ください。Steamキーをお送りします。プレスキットにはトレーラー、ロゴ、スクリーンショットが入っています。",
+    creator_body: "配信者・動画クリエイターの方は、KeymailerまたはLurkitから直接キーを申請できます。",
+    req_keymailer: "Keymailerで申請", req_lurkit: "Lurkitで申請",
     press_kit: "プレスキットをダウンロード",
     contact_title: "お問い合わせ", contact_body: "ビジネス・取材・サポート",
     shot_alt: "スクリーンショット",
