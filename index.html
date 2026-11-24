@@ -35,6 +35,7 @@
     --gold: #d39a3f;
     --gold-light: #f2cd85;
     --max: 1120px;
+    --star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0C12.9 7.2 16.8 11.1 24 12C16.8 12.9 12.9 16.8 12 24C11.1 16.8 7.2 12.9 0 12C7.2 11.1 11.1 7.2 12 0Z'/%3E%3C/svg%3E");
     --head: "Fraunces", "Gowun Batang", serif;
     --body: "Nunito", "Gowun Dodum", system-ui, sans-serif;
   }
@@ -141,11 +142,16 @@
       url("assets/rose_bg.jpg") center / 900px auto repeat, var(--wine-900);
   }
   .head { text-align: center; margin-bottom: 44px; }
-  .head h2 { font-size: clamp(28px, 3.8vw, 42px); color: var(--wine-600); }
+  .head h2 { font-size: clamp(28px, 3.8vw, 42px); color: var(--wine-600); display: inline-flex; align-items: center; justify-content: center; gap: .5em; }
+  /* a small four-point star on each side of every section title */
+  .head h2::before, .head h2::after {
+    content: ""; flex: none; width: .48em; height: .48em; background: var(--gold);
+    -webkit-mask: var(--star) center / contain no-repeat; mask: var(--star) center / contain no-repeat;
+  }
   .roses .head h2 { color: var(--gold-light); }
-  .head .sub { color: var(--ink-soft); margin: 10px auto 0; max-width: 640px; }
+  .roses .head h2::before, .roses .head h2::after { background: var(--gold-light); }
+  .head .sub { color: var(--ink-soft); margin: 14px auto 0; max-width: 640px; }
   .roses .head .sub { color: var(--cream-200); }
-  .head .divider { width: 240px; margin: 14px auto 0; }
 
   /* Prologue */
   .prologue { display: grid; grid-template-columns: 1.15fr .85fr; gap: 40px; align-items: center; }
@@ -191,22 +197,140 @@
 
   /* Household (companions) */
   .cast { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-  .member { text-align: center; }
-  .member .stage { position: relative; height: 260px; display: flex; align-items: flex-end; justify-content: center; }
-  .member .stage::before {
-    content: ""; position: absolute; left: 50%; bottom: 8px; width: 190px; height: 190px; transform: translateX(-50%);
-    background: url("assets/ui_circle.png") center / contain no-repeat; opacity: .95;
+  .member {
+    display: block; width: 100%; padding: 8px 8px 16px; border: 0; border-radius: 18px;
+    background: none; color: inherit; font: inherit; text-align: center; cursor: pointer; transition: background .2s;
   }
-  .member .stage img { position: relative; height: 250px; width: auto; filter: drop-shadow(0 8px 10px rgba(0,0,0,.45)); transition: transform .2s; }
+  .member:hover { background: rgba(252,247,239,.07); }
+  .member:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 2px; }
+  .member > span { display: block; }
+  .member .stage { height: 260px; display: flex; align-items: flex-end; justify-content: center; }
+  .member .stage img { height: 250px; width: auto; filter: drop-shadow(0 8px 10px rgba(0,0,0,.45)); transition: transform .2s; }
   .member:hover .stage img { transform: translateY(-6px) rotate(-1.5deg); }
-  .member h3 { color: var(--gold-light); font-size: 24px; margin-top: 14px; }
+  .member .m-name { font-family: var(--head); font-weight: 700; line-height: 1.3; color: var(--gold-light); font-size: 24px; margin-top: 14px; }
   .member .role { color: var(--cream-200); font-size: 15px; margin: 2px 0 10px; }
   .member .skill {
     display: inline-block; font-size: 14px; color: var(--wine-900); background: var(--gold-light);
     padding: 3px 12px; border-radius: 999px; font-weight: 700;
   }
   .member .skill-desc { color: var(--cream-200); font-size: 14.5px; margin: 8px 6px 0; opacity: .9; }
+  .member .more { margin-top: 12px; font-size: 14px; font-weight: 800; color: var(--gold-light); }
+  .member .more::after { content: " ›"; }
+  .member:hover .more { text-decoration: underline; text-underline-offset: 3px; }
   @media (max-width: 960px) { .cast { grid-template-columns: repeat(2, 1fr); row-gap: 40px; } }
+
+  /* Character profile window */
+  html:has(dialog[open]) { overflow: hidden; }
+  dialog.profile {
+    width: min(1000px, calc(100vw - 20px)); max-width: none; max-height: calc(100dvh - 20px);
+    padding: 0; border: 0; background: transparent; color: var(--ink); overflow: visible;
+  }
+  dialog.profile::backdrop { background: rgba(20,8,11,.84); }
+  .profile .sheet {
+    position: relative; max-height: calc(100dvh - 20px); overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+    border: 30px solid transparent; border-image: url("assets/ui_card.png") 40 fill / 30px stretch;
+  }
+  .profile .grid { display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); gap: 30px; margin: -14px -8px; }
+  .p-art {
+    border-radius: 16px; padding: 18px 14px 14px; display: flex; flex-direction: column; align-items: center;
+    background:
+      linear-gradient(rgba(28,10,14,.3), rgba(28,10,14,.62)),
+      url("assets/rose_bg.jpg") center / 640px auto, var(--wine-900);
+  }
+  .p-art .full {
+    height: min(58vh, 540px); width: 100%; object-fit: contain; object-position: center bottom;
+    filter: drop-shadow(0 10px 14px rgba(0,0,0,.45)); cursor: pointer;
+  }
+  .p-faces { display: flex; justify-content: center; gap: 10px; margin-top: 12px; }
+  .p-faces button {
+    width: 54px; height: 54px; padding: 0; border-radius: 50%; overflow: hidden; cursor: pointer;
+    border: 2px solid rgba(242,205,133,.35); background: var(--cream-100); transition: transform .15s, border-color .15s;
+  }
+  .p-faces button:hover { transform: translateY(-2px); }
+  .p-faces button[aria-pressed="true"] { border-color: var(--gold-light); box-shadow: 0 0 0 3px rgba(242,205,133,.3); }
+  .p-faces img { width: 100%; height: 100%; object-fit: cover; }
+  .p-info { padding: 8px 8px 4px 0; }
+  .p-name { font-size: clamp(30px, 4vw, 40px); color: var(--wine-600); }
+  .p-role { color: var(--wine-500); font-weight: 700; margin: 2px 0 14px; }
+  .p-intro { margin: 0 0 14px; font-size: 16px; line-height: 1.7; }
+  .p-facts {
+    display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; margin: 0 0 14px;
+    padding: 12px 16px; border-radius: 12px; background: rgba(236,220,200,.55);
+  }
+  .p-facts dt { font-weight: 800; color: var(--wine-600); }
+  .p-facts dd { margin: 0; }
+  .p-skill { padding: 12px 16px; border-radius: 0 12px 12px 0; border-left: 4px solid var(--gold); background: var(--cream-50); }
+  .p-skill .label { font-size: 13px; font-weight: 800; color: var(--ink-soft); letter-spacing: .03em; }
+  .p-skill b { display: block; font-family: var(--head); font-size: 19px; color: var(--wine-600); margin: 2px 0 2px; }
+  .p-skill p { margin: 0; font-size: 15.5px; }
+  .p-quotes-title { margin: 14px 0 6px; font-size: 13px; font-weight: 800; color: var(--ink-soft); letter-spacing: .03em; }
+  .p-quotes { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .p-quotes li {
+    padding: 8px 14px; border-radius: 14px; background: #fffaf3; border: 1.5px solid var(--cream-200);
+    font-family: var(--head); font-size: 15.5px; color: var(--wine-600); white-space: pre-line; line-height: 1.6;
+  }
+  .p-nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 16px; }
+  .p-nav button {
+    padding: 7px 16px; border-radius: 999px; border: 1.5px solid var(--frame); background: var(--cream-50);
+    color: var(--wine-600); font: inherit; font-weight: 800; font-size: 14.5px; cursor: pointer;
+  }
+  .p-nav button:hover { background: #fff; }
+  .p-close {
+    position: absolute; top: 8px; right: 8px; z-index: 2; width: 40px; height: 40px; border-radius: 50%;
+    border: 2px solid var(--gold-light); background: var(--wine-600); color: var(--cream-50); font-size: 22px; line-height: 1; cursor: pointer;
+  }
+  @media (max-width: 760px) {
+    .profile .sheet { border-width: 22px; border-image-width: 22px; }
+    .profile .grid { grid-template-columns: 1fr; gap: 18px; margin: -8px -4px; }
+    .p-art .full { height: 44vh; }
+    .p-info { padding: 0; }
+  }
+
+  /* Job explorer */
+  .jobs-hint { text-align: center; color: var(--ink-soft); font-size: 15px; margin: 30px auto 14px; max-width: 640px; }
+  .job-tabs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 30px; }
+  .job-tab {
+    display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px 9px;
+    border: 2px solid var(--cream-200); border-radius: 14px; background: var(--cream-50); color: var(--wine-600);
+    font: inherit; font-weight: 800; font-size: 15px; line-height: 1.3; cursor: pointer; transition: transform .15s, background .15s;
+  }
+  .job-tab img { height: 64px; width: auto; }
+  .job-tab:hover { transform: translateY(-2px); }
+  .job-tab:focus-visible { outline: 2px solid var(--wine-500); outline-offset: 2px; }
+  .job-tab[aria-selected="true"] { background: var(--wine-600); border-color: var(--gold); color: var(--cream-50); box-shadow: 0 6px 14px rgba(110,31,43,.28); }
+  @media (max-width: 760px) { .job-tabs { grid-template-columns: repeat(4, 1fr); } .job-tab img { height: 50px; } .job-tab { font-size: 14px; } }
+  .job-head { text-align: center; margin-bottom: 24px; }
+  .job-head h3 { font-size: 30px; color: var(--wine-600); }
+  .target { display: inline-block; margin: 6px 0 10px; padding: 2px 12px; border-radius: 999px; font-size: 13.5px; font-weight: 800; color: #fff6ee; background: var(--wine-500); }
+  .target.base { background: #8a5a20; }
+  .target.ally { background: #3f6e4f; }
+  .job-head p { color: var(--ink-soft); max-width: 640px; margin: 0 auto; }
+  .maid-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; }
+  .maid-card { border: 26px solid transparent; border-image: url("assets/ui_card.png") 40 fill / 26px stretch; }
+  .maid-card > .inner { margin: -10px -4px; text-align: center; }
+  .rarity { display: inline-block; padding: 2px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; letter-spacing: .03em; }
+  .rarity.r0 { background: #e9ddd0; color: #6b5048; }
+  .rarity.r1 { background: #d3e2f3; color: #2d4f78; }
+  .rarity.r2 { background: linear-gradient(135deg, #f8e0a4, #e2a64a); color: #5a2f0a; }
+  .maid-card .sprite { height: 160px; display: flex; align-items: flex-end; justify-content: center; margin: 10px 0 6px; cursor: pointer; }
+  .maid-card .pair { display: grid; }
+  .maid-card .pair img { grid-area: 1 / 1; align-self: end; justify-self: center; max-height: 160px; width: auto; filter: drop-shadow(0 4px 4px rgba(61,38,36,.25)); }
+  .maid-card .pair .atk { opacity: 0; }
+  .maid-card:hover .pair .atk, .maid-card.attacking .pair .atk { opacity: 1; }
+  .maid-card:hover .pair.has-atk .idle, .maid-card.attacking .pair.has-atk .idle { opacity: 0; }
+  .maid-card:hover .pair.no-atk .idle, .maid-card.attacking .pair.no-atk .idle { animation: fuse .36s steps(2, jump-none) infinite; }
+  @keyframes fuse { from { filter: none; } to { filter: sepia(1) saturate(6) hue-rotate(-28deg) brightness(1.05); } }
+  .maid-card h4 { font-family: var(--head); font-size: 22px; color: var(--wine-600); margin: 0; line-height: 1.3; }
+  .maid-card .bio { font-size: 14.5px; line-height: 1.65; color: var(--ink-soft); margin: 8px 0 12px; text-align: left; }
+  .maid-card .ability { font-size: 14.5px; line-height: 1.65; text-align: left; margin: 0 0 14px; padding: 9px 12px; border-radius: 10px; background: rgba(236,220,200,.5); }
+  .maid-card .ability b { display: block; font-size: 12.5px; color: var(--wine-600); letter-spacing: .03em; }
+  .bars { display: grid; grid-template-columns: auto 1fr; gap: 5px 10px; align-items: center; font-size: 13px; text-align: left; }
+  .bars span { color: var(--ink-soft); font-weight: 700; white-space: nowrap; }
+  .bar { height: 8px; border-radius: 99px; background: var(--cream-200); overflow: hidden; }
+  .bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--frame), var(--wine-500)); }
+  .cost { margin-top: 12px; font-size: 13.5px; font-weight: 800; color: var(--wine-600); }
+  @media (max-width: 900px) { .maid-cards { grid-template-columns: 1fr; max-width: 440px; margin-inline: auto; } }
+  .track img { cursor: pointer; }
 
   /* 36 maids parade */
   .parade { overflow: hidden; position: relative; padding: 10px 0 0; }
@@ -217,8 +341,6 @@
   .track img { height: 132px; width: auto; filter: drop-shadow(0 4px 4px rgba(61,38,36,.25)); }
   .parade:hover .track { animation-play-state: paused; }
   @keyframes march { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  .jobs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 26px; padding: 0; list-style: none; }
-  .jobs li { font-size: 14px; font-weight: 700; color: var(--wine-600); background: var(--cream-50); border: 1.5px solid var(--cream-200); border-radius: 8px; padding: 3px 11px; }
 
   /* Media */
   .video-frame {
@@ -281,7 +403,8 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .track { animation: none; }
-    .gbtn, .gallery img, .member .stage img { transition: none; }
+    .gbtn, .gallery img, .member .stage img, .job-tab { transition: none; }
+    .maid-card .pair .idle { animation: none !important; }
   }
 </style>
 </head>
@@ -350,9 +473,7 @@
   <section id="play" class="paper" style="padding-top:20px">
     <div class="wrap">
       <div class="head">
-        <h2 data-i18n="play_title">Pickaxes, contracts and stocks</h2>
-        <img class="divider" src="assets/deco_bottom.png" width="900" height="199" alt="">
-        <p class="sub" data-i18n="play_sub">A 1v1 auto-battle strategy game. Your maids fight on their own, so you can focus on the money.</p>
+        <h2 data-i18n="play_title">Pickaxes, contracts and stocks</h2>        <p class="sub" data-i18n="play_sub">A 1v1 auto-battle strategy game. Your maids fight on their own, so you can focus on the money.</p>
       </div>
       <div class="cards">
         <div class="card"><div class="inner">
@@ -385,39 +506,41 @@
   <section id="cast" class="roses">
     <div class="wrap">
       <div class="head">
-        <h2 data-i18n="cast_title">The household</h2>
-        <img class="divider" src="assets/deco_bottom.png" width="900" height="199" alt="">
-        <p class="sub" data-i18n="cast_sub">Four companions to come home to. The one you bring decides which skill you can use in battle.</p>
+        <h2 data-i18n="cast_title">The household</h2>        <p class="sub" data-i18n="cast_sub">Four companions to come home to. The one you bring decides which skill you can use in battle.</p>
       </div>
       <div class="cast">
-        <div class="member">
-          <div class="stage"><img src="assets/chibi_rin.webp" width="272" height="440" alt="Rin" loading="lazy"></div>
-          <h3 data-i18n="rin_name">Rin</h3>
-          <p class="role" data-i18n="rin_role">Milady. Former noble, current miner.</p>
+        <button type="button" class="member" data-char="0" aria-haspopup="dialog">
+          <span class="stage"><img src="assets/chibi_rin.webp" width="272" height="440" alt="" loading="lazy"></span>
+          <span class="m-name" data-i18n="rin_name">Rin</span>
+          <span class="role" data-i18n="rin_role">Milady. Former noble, current miner.</span>
           <span class="skill" data-i18n="rin_skill">Mother Lode</span>
-          <p class="skill-desc" data-i18n="rin_skill_desc">For a while, mining never misses and silver comes in multiplied.</p>
-        </div>
-        <div class="member">
-          <div class="stage"><img src="assets/chibi_shizuka.webp" width="272" height="440" alt="Shizuka" loading="lazy"></div>
-          <h3 data-i18n="shizuka_name">Shizuka</h3>
-          <p class="role" data-i18n="shizuka_role">Head maid. Cannot clean.</p>
+          <span class="skill-desc" data-i18n="rin_skill_desc">For a while, mining never misses and silver comes in multiplied.</span>
+          <span class="more" data-i18n="cast_more">View profile</span>
+        </button>
+        <button type="button" class="member" data-char="1" aria-haspopup="dialog">
+          <span class="stage"><img src="assets/chibi_shizuka.webp" width="272" height="440" alt="" loading="lazy"></span>
+          <span class="m-name" data-i18n="shizuka_name">Shizuka</span>
+          <span class="role" data-i18n="shizuka_role">Head maid. Cannot clean.</span>
           <span class="skill" data-i18n="shizuka_skill">Sword Dance</span>
-          <p class="skill-desc" data-i18n="shizuka_skill_desc">Leaps into the marked spot and cuts down everything still standing there.</p>
-        </div>
-        <div class="member">
-          <div class="stage"><img src="assets/chibi_maki.webp" width="272" height="440" alt="Maki" loading="lazy"></div>
-          <h3 data-i18n="maki_name">Maki</h3>
-          <p class="role" data-i18n="maki_role">Finance maid. Chart analysis is her specialty.</p>
+          <span class="skill-desc" data-i18n="shizuka_skill_desc">Leaps into the marked spot and cuts down everything still standing there.</span>
+          <span class="more" data-i18n="cast_more">View profile</span>
+        </button>
+        <button type="button" class="member" data-char="2" aria-haspopup="dialog">
+          <span class="stage"><img src="assets/chibi_maki.webp" width="272" height="440" alt="" loading="lazy"></span>
+          <span class="m-name" data-i18n="maki_name">Maki</span>
+          <span class="role" data-i18n="maki_role">Finance maid. Chart analysis is her specialty.</span>
           <span class="skill" data-i18n="maki_skill">Emergency Funds</span>
-          <p class="skill-desc" data-i18n="maki_skill_desc">Raises silver on the spot and sends every active stock jumping.</p>
-        </div>
-        <div class="member">
-          <div class="stage"><img src="assets/chibi_akane.webp" width="272" height="440" alt="Akane" loading="lazy"></div>
-          <h3 data-i18n="akane_name">Akane</h3>
-          <p class="role" data-i18n="akane_role">Plunder maid. Name a place, she'll clean it out.</p>
+          <span class="skill-desc" data-i18n="maki_skill_desc">Raises silver on the spot and sends every active stock jumping.</span>
+          <span class="more" data-i18n="cast_more">View profile</span>
+        </button>
+        <button type="button" class="member" data-char="3" aria-haspopup="dialog">
+          <span class="stage"><img src="assets/chibi_akane.webp" width="272" height="440" alt="" loading="lazy"></span>
+          <span class="m-name" data-i18n="akane_name">Akane</span>
+          <span class="role" data-i18n="akane_role">Plunder maid. Name a place, she'll clean it out.</span>
           <span class="skill" data-i18n="akane_skill">Heist</span>
-          <p class="skill-desc" data-i18n="akane_skill_desc">A few enemy maids follow her and fight on your side for a while.</p>
-        </div>
+          <span class="skill-desc" data-i18n="akane_skill_desc">A few enemy maids follow her and fight on your side for a while.</span>
+          <span class="more" data-i18n="cast_more">View profile</span>
+        </button>
       </div>
     </div>
   </section>
@@ -425,21 +548,21 @@
   <section id="maids" class="paper">
     <div class="wrap">
       <div class="head">
-        <h2 data-i18n="maids_title">36 maids, 12 jobs</h2>
-        <img class="divider" src="assets/deco_bottom.png" width="900" height="199" alt="">
-        <p class="sub" data-i18n="maids_sub">Some hold the front line, some heal from the back, and some just explode. Every maid is earned by playing.</p>
+        <h2 data-i18n="maids_title">36 maids, 12 jobs</h2>        <p class="sub" data-i18n="maids_sub">Some hold the front line, some heal from the back, and some just explode. Every maid is earned by playing.</p>
       </div>
     </div>
     <div class="parade" aria-hidden="true"><div class="track" id="track"></div></div>
-    <div class="wrap"><ul class="jobs" id="jobs"></ul></div>
+    <div class="wrap">
+      <p class="jobs-hint" data-i18n="jobs_hint">Pick a job to meet its three maids. Hover over a maid to see her attack.</p>
+      <div class="job-tabs" role="tablist" id="jobTabs" aria-label="Jobs"></div>
+      <div class="job-panel" id="jobPanel" role="tabpanel"></div>
+    </div>
   </section>
 
   <section id="media" class="roses">
     <div class="wrap">
       <div class="head">
-        <h2 data-i18n="media_title">See it in action</h2>
-        <img class="divider" src="assets/deco_bottom.png" width="900" height="199" alt="">
-      </div>
+        <h2 data-i18n="media_title">See it in action</h2>      </div>
       <div class="video-frame">
         <video src="assets/gameplay.mp4" poster="assets/gameplay_poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Gameplay clip"></video>
       </div>
@@ -450,9 +573,7 @@
   <section id="facts" class="paper">
     <div class="wrap">
       <div class="head">
-        <h2 data-i18n="facts_title">At a glance</h2>
-        <img class="divider" src="assets/deco_bottom.png" width="900" height="199" alt="">
-      </div>
+        <h2 data-i18n="facts_title">At a glance</h2>      </div>
       <div class="facts">
         <img class="capsule" src="assets/capsule_vertical.jpg" width="600" height="900" alt="Buy the Dip, Milady key art" loading="lazy">
         <table>
@@ -505,11 +626,44 @@
   </div>
 </footer>
 
+<dialog class="profile" id="profile" aria-labelledby="pName">
+  <div class="sheet">
+    <button type="button" class="p-close" id="pClose" aria-label="Close">×</button>
+    <div class="grid">
+      <div class="p-art">
+        <img class="full" id="pFull" src="assets/cast/rin_idle.webp" alt="">
+        <div class="p-faces" id="pFaces" role="group"></div>
+      </div>
+      <div class="p-info">
+        <h2 class="p-name" id="pName"></h2>
+        <p class="p-role" id="pRole"></p>
+        <p class="p-intro" id="pIntro"></p>
+        <dl class="p-facts">
+          <dt data-i18n="p_good">Good at</dt><dd id="pGood"></dd>
+          <dt data-i18n="p_weak">Weak spot</dt><dd id="pWeak"></dd>
+        </dl>
+        <div class="p-skill">
+          <span class="label" data-i18n="p_skill">Battle skill</span>
+          <b id="pSkill"></b>
+          <p id="pSkillDesc"></p>
+        </div>
+        <p class="p-quotes-title" data-i18n="p_quotes">In her words</p>
+        <ul class="p-quotes" id="pQuotes"></ul>
+        <div class="p-nav">
+          <button type="button" id="pPrev"></button>
+          <button type="button" id="pNext"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
 <dialog class="lightbox" id="lightbox">
   <form method="dialog"><button aria-label="Close">×</button></form>
   <img id="lightboxImg" alt="">
 </dialog>
 
+<script src="assets/maids.js"></script>
 <script>
 const I18N = {
   en: {
@@ -556,7 +710,33 @@ const I18N = {
     press_kit: "Download press kit",
     contact_title: "Contact", contact_body: "Business, press and support",
     shot_alt: "Screenshot",
-    jobs: ["Sword","Lancer","Shield","Killer","Archer","Gunner","Magician","Boomer","Breaker","Healer","Buffer","Debuffer"]
+    cast_more: "View profile",
+    jobs_hint: "Pick a job to meet its three maids. Hover over a maid (or tap her) to see her attack.",
+    target_enemy: "Hits enemy maids & base", target_base: "Hits the base only", target_ally: "Supports allies",
+    ability: "Ability", cost: "Contract cost · {0} Silver",
+    stats: { hp: "HP", atk: "Attack", aspd: "Attack speed", range: "Range", speed: "Move speed" },
+    job_info: {
+      sword: "The standard melee job. Higher grades land a heavy blow every few hits.",
+      lence: "Longer reach than a sword, and pushes enemies back. Higher grades can deflect attacks entirely.",
+      shield: "Holds the front line on sheer health. Higher grades pull enemy attacks onto themselves.",
+      killer: "Fragile, but the fastest hands in the house. She grows stronger with every hit and speeds up after a kill.",
+      arrow: "Lobs arrows from the longest range. Higher grades fire faster and slow down what they hit.",
+      gunner: "Straight, heavy shots from mid range. The Rare can finish off a weakened enemy in one shot.",
+      magician: "Blasts everything around the point of impact. The area grows with each grade.",
+      boomer: "Charges in and explodes, going down with the blast. The Rare leaves a burning patch behind.",
+      breaker: "Ignores enemy maids completely and goes straight for the base.",
+      heal: "Heals the most injured ally. Higher grades heal several at once.",
+      buffer: "Raises nearby allies' attack. Higher grades boost attack speed too.",
+      debuffer: "Weakens the attack of whatever she hits. Higher grades add slows, armor shred and buff removal."
+    },
+    p_good: "Good at", p_weak: "Weak spot", p_skill: "Battle skill", p_quotes: "In her words", p_close: "Close",
+    expr: { idle: "Default", proud: "Proud", shy: "Flustered", surprised: "Surprised", pointing: "Pointing", sleepy: "Sleepy", thinking: "Thinking", confident: "Confident", glassup: "Glasses up", happy: "Happy", wink: "Wink", lovely: "Lovestruck", ok: "Cheerful" },
+    chars: {
+      rin: { intro: "The young lady of the fallen Shinomiya house. Ever since she struck silver in the mine her father bought with his last coins, she has been set on rebuilding the family one swing at a time.", good: "Swinging a pickaxe", weak: "Reading charts" },
+      shizuka: { intro: "Head maid of the manor. With a sword in hand there's no one more dependable, but housework is another story. Jokes take her about three seconds.", good: "Swordplay, guarding the manor", weak: "Mornings, cleaning, getting the heat right" },
+      maki: { intro: "The manor's finance maid. Charts and ledgers never leave her hands, and coffee gets her through the all-nighters.", good: "Chart analysis, balancing the books", weak: "Days in the red, nights without coffee" },
+      akane: { intro: "The manor's plunder maid. She's proud she has never been caught, though she has mixed up the target with the house next door a few times.", good: "Lockpicking, sneaking in", weak: "Telling houses apart" }
+    }
   },
   ko: {
     doc_title: "MAID FACTORY — 지금이 저점입니다, 아가씨",
@@ -602,7 +782,33 @@ const I18N = {
     press_kit: "프레스킷 받기",
     contact_title: "연락처", contact_body: "제휴·취재·문의",
     shot_alt: "스크린샷",
-    jobs: ["검","창","방패","연격","궁수","총격","마법","자폭","파쇄","치유","강화","약화"]
+    cast_more: "프로필 보기",
+    jobs_hint: "직군을 고르면 그 직군 메이드 세 명의 성격과 능력을 볼 수 있어요. 메이드에 마우스를 올리거나 누르면 공격 동작이 나와요.",
+    target_enemy: "적 메이드·기지 공격", target_base: "기지만 공격", target_ally: "아군 지원",
+    ability: "능력", cost: "계약 비용 · 은화 {0}",
+    stats: { hp: "체력", atk: "공격력", aspd: "공격 속도", range: "사거리", speed: "이동 속도" },
+    job_info: {
+      sword: "가장 기본이 되는 근접 직군. 등급이 오를수록 몇 번에 한 번씩 강타를 날립니다.",
+      lence: "검보다 긴 리치로 적을 밀어냅니다. 상위 등급은 공격을 흘려 피하기도 해요.",
+      shield: "높은 체력으로 앞줄에서 버팁니다. 상위 등급은 적의 공격을 자기에게 끌어옵니다.",
+      killer: "몸은 약하지만 손은 누구보다 빠릅니다. 때릴수록 강해지고, 적을 쓰러뜨리면 더 몰아칩니다.",
+      arrow: "가장 먼 거리에서 곡사로 쏩니다. 상위 등급은 연사하고, 맞힌 적을 느리게 만듭니다.",
+      gunner: "중거리에서 곧게 쏘는 묵직한 한 방. 레어는 약해진 적을 확률로 단번에 쓰러뜨립니다.",
+      magician: "떨어진 자리 주변을 한꺼번에 휩쓸어 버립니다. 등급이 오를수록 범위가 넓어져요.",
+      boomer: "적에게 뛰어들어 터지면서 함께 쓰러집니다. 레어는 불타는 자리를 남깁니다.",
+      breaker: "적 메이드는 거들떠보지도 않고 기지만 부숩니다.",
+      heal: "가장 많이 다친 아군을 치료합니다. 등급이 오를수록 한 번에 여러 명을 돌봐요.",
+      buffer: "주변 아군의 공격력을 끌어올립니다. 상위 등급은 공격 속도까지 올려 줘요.",
+      debuffer: "맞힌 적의 공격력을 깎습니다. 상위 등급은 둔화와 방어 감소에, 강화 해제까지 걸어요."
+    },
+    p_good: "특기", p_weak: "약점", p_skill: "전투 스킬", p_quotes: "한마디", p_close: "닫기",
+    expr: { idle: "기본", proud: "의기양양", shy: "부끄러움", surprised: "놀람", pointing: "지적", sleepy: "졸림", thinking: "생각 중", confident: "자신만만", glassup: "안경 올리기", happy: "기쁨", wink: "윙크", lovely: "두근두근", ok: "신남" },
+    chars: {
+      rin: { intro: "몰락한 시노미야 가문의 아가씨. 아버지가 마지막 쌈짓돈으로 산 폐광에서 은맥을 찾아낸 뒤로, 곡괭이 한 자루로 가문을 다시 일으키려 합니다.", good: "곡괭이질", weak: "차트 읽기" },
+      shizuka: { intro: "저택의 수석 메이드장. 검을 쥐면 누구보다 믿음직하지만, 집안일 앞에서는 어쩐지 서툽니다. 농담을 알아듣는 데는 3초쯤 걸려요.", good: "검술, 저택 경비", weak: "아침, 청소, 불 조절" },
+      maki: { intro: "저택의 재무 담당 메이드. 차트와 장부를 손에서 놓지 않고, 밤샘은 커피로 버팁니다.", good: "차트 분석, 장부 정리", weak: "손실 난 날, 커피 없는 밤" },
+      akane: { intro: "저택의 약탈 담당 메이드. 한 번도 들킨 적 없다는 게 자랑이지만, 털어야 할 집을 옆집과 헷갈린 적은 몇 번 있습니다.", good: "자물쇠 따기, 잠입", weak: "집 구별하기" }
+    }
   },
   ja: {
     doc_title: "MAID FACTORY — 今が底値です。お嬢様",
@@ -648,31 +854,217 @@ const I18N = {
     press_kit: "プレスキットをダウンロード",
     contact_title: "お問い合わせ", contact_body: "ビジネス・取材・サポート",
     shot_alt: "スクリーンショット",
-    jobs: ["剣","槍","盾","連撃","弓","銃撃","魔法","自爆","破砕","回復","強化","弱体"]
+    cast_more: "プロフィールを見る",
+    jobs_hint: "職を選ぶと、その職のメイド3人の性格と能力が見られます。メイドにカーソルを合わせるか、タップすると攻撃モーションが見られます。",
+    target_enemy: "敵メイド・拠点を攻撃", target_base: "拠点のみ攻撃", target_ally: "味方を支援",
+    ability: "能力", cost: "契約コスト · 銀貨{0}",
+    stats: { hp: "体力", atk: "攻撃力", aspd: "攻撃速度", range: "射程", speed: "移動速度" },
+    job_info: {
+      sword: "最も基本となる近接職。等級が上がるほど、数回に一度強打を放ちます。",
+      lence: "剣より長いリーチで敵を押し返します。上位等級は攻撃を受け流してかわすことも。",
+      shield: "高い体力で前線を支えます。上位等級は敵の攻撃を自分に引きつけます。",
+      killer: "体は弱いけれど、手は誰よりも速い。叩くほど強くなり、敵を倒すとさらに畳みかけます。",
+      arrow: "最も遠い距離から曲射で撃ちます。上位等級は連射し、当てた敵を遅くします。",
+      gunner: "中距離からまっすぐ撃つ重い一発。レアは弱った敵を確率で一撃で倒します。",
+      magician: "着弾地点の周りをまとめて吹き飛ばします。等級が上がるほど範囲が広がります。",
+      boomer: "敵に飛び込んで爆発し、自分も一緒に倒れます。レアは燃える地面を残します。",
+      breaker: "敵メイドには目もくれず、拠点だけを壊します。",
+      heal: "いちばん傷ついた味方を回復します。等級が上がるほど一度に何人も治せます。",
+      buffer: "周りの味方の攻撃力を引き上げます。上位等級は攻撃速度まで上げてくれます。",
+      debuffer: "当てた敵の攻撃力を下げます。上位等級は鈍化と防御低下、さらに強化解除まで。"
+    },
+    p_good: "得意なこと", p_weak: "苦手なこと", p_skill: "戦闘スキル", p_quotes: "ひとこと", p_close: "閉じる",
+    expr: { idle: "通常", proud: "得意げ", shy: "照れ", surprised: "驚き", pointing: "指さし", sleepy: "眠い", thinking: "考え中", confident: "自信満々", glassup: "眼鏡くいっ", happy: "嬉しい", wink: "ウインク", lovely: "ときめき", ok: "ノリノリ" },
+    chars: {
+      rin: { intro: "没落したシノミヤ家のお嬢様。父が最後のへそくりで買った廃坑で銀脈を見つけてから、つるはし一本で家の再興を目指しています。", good: "つるはし振り", weak: "チャートを読むこと" },
+      shizuka: { intro: "屋敷の首席メイド長。剣を握れば誰より頼もしいけれど、家事となるとどうにも不器用。冗談を理解するのに三秒ほどかかります。", good: "剣術、屋敷の警備", weak: "朝、掃除、火加減" },
+      maki: { intro: "屋敷の財務担当メイド。チャートと帳簿を手放さず、徹夜はコーヒーで乗り切ります。", good: "チャート分析、帳簿の整理", weak: "損が出た日、コーヒーのない夜" },
+      akane: { intro: "屋敷の略奪担当メイド。一度も見つかったことがないのが自慢だけれど、狙う家を隣の家と間違えたことは何度かあります。", good: "鍵開け、潜入", weak: "家の見分け" }
+    }
   }
 };
 
-/* 36 maids: file key per job (art folder names) in display order */
-const JOB_KEYS = ["sword","lence","shield","killer","arrow","gunner","magician","boomer","breaker","heal","buffer","debuffer"];
+const MD = window.MAID_DATA;              // maid names, bios, abilities and stats, generated from the game files
+let LANG = "en";
+const fmt = (s, v) => s.replace("{0}", v);
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = text;
+  return e;
+}
+
+/* ---------- 36 maids parade (art folder keys, display order) ---------- */
+const JOB_KEYS = MD.jobs.map(j => j.key);
 const track = document.getElementById("track");
 (function buildParade() {
   const list = [];
-  for (const r of ["01","02","03"]) for (const j of JOB_KEYS) list.push(`assets/maids/${j}_${r}.webp`);
+  for (const r of ["01","02","03"]) JOB_KEYS.forEach((j, ji) => list.push([`assets/maids/${j}_${r}.webp`, ji]));
   // shuffle lightly so rarities mix, deterministic
   const order = list.map((s, i) => [((i * 7) % list.length), s]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
   for (let pass = 0; pass < 2; pass++) {
-    for (const src of order) {
+    for (const [src, ji] of order) {
       const img = document.createElement("img");
       img.src = src; img.alt = ""; img.loading = "lazy"; img.height = 132;
+      img.addEventListener("click", () => { selectJob(ji); jobPanel.scrollIntoView({ behavior: "smooth", block: "start" }); });
       track.appendChild(img);
     }
   }
 })();
 
+/* ---------- Job explorer: 12 jobs x 3 maids ---------- */
+const jobTabs = document.getElementById("jobTabs");
+const jobPanel = document.getElementById("jobPanel");
+const STAT_KEYS = ["hp", "atk", "aspd", "range", "speed"];
+const STAT_MAX = {};
+STAT_KEYS.forEach(k => { STAT_MAX[k] = Math.max(...MD.jobs.flatMap(j => j.maids.map(m => m.stats[k]))); });
+const TARGET = { breaker: "base", heal: "ally", buffer: "ally" };
+const NO_ATTACK_ART = new Set(["boomer"]);   // boomers flash red and explode instead of attacking
+let currentJob = 0;
+
+function renderJobTabs() {
+  jobTabs.innerHTML = "";
+  MD.jobs.forEach((job, i) => {
+    const b = el("button", "job-tab");
+    b.type = "button"; b.id = "jobtab-" + job.key;
+    b.setAttribute("role", "tab");
+    b.setAttribute("aria-controls", "jobPanel");
+    b.setAttribute("aria-selected", i === currentJob ? "true" : "false");
+    b.tabIndex = i === currentJob ? 0 : -1;
+    const img = el("img"); img.src = `assets/maids/${job.key}_03.webp`; img.alt = ""; img.loading = "lazy"; img.width = 160; img.height = 180;
+    b.append(img, el("span", null, job.name[LANG]));
+    b.addEventListener("click", () => selectJob(i));
+    b.addEventListener("keydown", e => {
+      const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+      if (!step) return;
+      e.preventDefault();
+      selectJob((currentJob + step + MD.jobs.length) % MD.jobs.length, true);
+    });
+    jobTabs.appendChild(b);
+  });
+}
+
+function selectJob(i, focus) {
+  currentJob = i;
+  [...jobTabs.children].forEach((b, bi) => {
+    b.setAttribute("aria-selected", bi === i ? "true" : "false");
+    b.tabIndex = bi === i ? 0 : -1;
+  });
+  if (focus) jobTabs.children[i].focus();
+  renderJobPanel();
+}
+
+function renderJobPanel() {
+  const t = I18N[LANG], job = MD.jobs[currentJob];
+  jobPanel.setAttribute("aria-labelledby", "jobtab-" + job.key);
+  jobPanel.innerHTML = "";
+  const head = el("div", "job-head");
+  const target = TARGET[job.key] || "enemy";
+  head.append(el("h3", null, job.name[LANG]), el("span", "target " + target, t["target_" + target]), el("p", null, t.job_info[job.key]));
+  const cards = el("div", "maid-cards");
+  job.maids.forEach((m, r) => {
+    const card = el("article", "maid-card");
+    const inner = el("div", "inner");
+    const rr = String(r + 1).padStart(2, "0");
+    const hasAtk = !NO_ATTACK_ART.has(job.key);
+    const sprite = el("div", "sprite");
+    const pair = el("div", "pair " + (hasAtk ? "has-atk" : "no-atk"));
+    const idle = el("img", "idle"); idle.src = `assets/maids_card/${job.key}_${rr}_idle.webp`; idle.alt = m.name[LANG]; idle.loading = "lazy";
+    pair.appendChild(idle);
+    if (hasAtk) { const atk = el("img", "atk"); atk.src = `assets/maids_card/${job.key}_${rr}_atk.webp`; atk.alt = ""; atk.loading = "lazy"; pair.appendChild(atk); }
+    sprite.appendChild(pair);
+    sprite.addEventListener("click", () => {            // touch screens have no hover: tap to play the attack
+      card.classList.add("attacking");
+      clearTimeout(card._t); card._t = setTimeout(() => card.classList.remove("attacking"), 700);
+    });
+    const ability = el("p", "ability");
+    ability.append(el("b", null, t.ability), document.createTextNode(m.ability[LANG]));
+    const bars = el("div", "bars");
+    STAT_KEYS.forEach(k => {
+      const bar = el("div", "bar"); bar.setAttribute("role", "presentation");
+      const fill = el("i"); fill.style.width = Math.max(4, Math.round(m.stats[k] / STAT_MAX[k] * 100)) + "%";
+      bar.appendChild(fill);
+      bars.append(el("span", null, t.stats[k]), bar);
+    });
+    inner.append(el("span", "rarity r" + r, MD.rarity[LANG][r]), sprite, el("h4", null, m.name[LANG]),
+      el("p", "bio", m.bio[LANG]), ability, bars, el("p", "cost", fmt(t.cost, m.stats.cost)));
+    card.appendChild(inner);
+    cards.appendChild(card);
+  });
+  jobPanel.append(head, cards);
+}
+
+/* ---------- Character profiles ---------- */
+const CAST = [
+  { id: "rin", ex: ["idle", "proud", "shy", "surprised"] },
+  { id: "shizuka", ex: ["idle", "pointing", "sleepy", "thinking"] },
+  { id: "maki", ex: ["idle", "confident", "glassup", "happy"] },
+  { id: "akane", ex: ["idle", "wink", "lovely", "ok"] }
+];
+const profile = document.getElementById("profile");
+const pFull = document.getElementById("pFull");
+const pFaces = document.getElementById("pFaces");
+let currentChar = 0, currentExpr = 0;
+
+function setExpr(i) {
+  const c = CAST[currentChar];
+  currentExpr = (i + c.ex.length) % c.ex.length;
+  pFull.src = `assets/cast/${c.id}_${c.ex[currentExpr]}.webp`;
+  pFull.alt = I18N[LANG][c.id + "_name"] + " — " + I18N[LANG].expr[c.ex[currentExpr]];
+  [...pFaces.children].forEach((b, bi) => b.setAttribute("aria-pressed", bi === currentExpr ? "true" : "false"));
+}
+
+function renderProfile() {
+  const t = I18N[LANG], c = CAST[currentChar], info = t.chars[c.id];
+  document.getElementById("pName").textContent = t[c.id + "_name"];
+  document.getElementById("pRole").textContent = t[c.id + "_role"];
+  document.getElementById("pIntro").textContent = info.intro;
+  document.getElementById("pGood").textContent = info.good;
+  document.getElementById("pWeak").textContent = info.weak;
+  document.getElementById("pSkill").textContent = t[c.id + "_skill"];
+  document.getElementById("pSkillDesc").textContent = t[c.id + "_skill_desc"];
+  const q = document.getElementById("pQuotes"); q.innerHTML = "";
+  MD.quotes[c.id][LANG].forEach(line => q.appendChild(el("li", null, line)));
+  pFaces.innerHTML = "";
+  pFaces.setAttribute("aria-label", t[c.id + "_name"]);
+  c.ex.forEach((e, i) => {
+    const b = el("button"); b.type = "button";
+    b.title = t.expr[e]; b.setAttribute("aria-label", t.expr[e]);
+    const img = el("img"); img.src = `assets/cast/${c.id}_${e}_face.webp`; img.alt = ""; img.width = 128; img.height = 128;
+    b.appendChild(img);
+    b.addEventListener("click", () => setExpr(i));
+    pFaces.appendChild(b);
+    new Image().src = `assets/cast/${c.id}_${e}.webp`;   // warm the cache so switching faces is instant
+  });
+  const prev = CAST[(currentChar + 3) % 4], next = CAST[(currentChar + 1) % 4];
+  document.getElementById("pPrev").textContent = "‹ " + t[prev.id + "_name"];
+  document.getElementById("pNext").textContent = t[next.id + "_name"] + " ›";
+  document.getElementById("pClose").setAttribute("aria-label", t.p_close);
+  setExpr(currentExpr);
+}
+
+function openProfile(i) {
+  currentChar = i; currentExpr = 0;
+  renderProfile();
+  profile.querySelector(".sheet").scrollTop = 0;
+  if (profile.showModal) { if (!profile.open) profile.showModal(); } else profile.setAttribute("open", "");
+}
+function stepProfile(d) { openProfile((currentChar + d + CAST.length) % CAST.length); }
+
+document.querySelectorAll(".member").forEach(b => b.addEventListener("click", () => openProfile(+b.dataset.char)));
+document.getElementById("pPrev").addEventListener("click", () => stepProfile(-1));
+document.getElementById("pNext").addEventListener("click", () => stepProfile(1));
+document.getElementById("pClose").addEventListener("click", () => profile.close());
+pFull.addEventListener("click", () => setExpr(currentExpr + 1));
+profile.addEventListener("click", e => { if (e.target === profile) profile.close(); });
+profile.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft") { e.preventDefault(); stepProfile(-1); }
+  if (e.key === "ArrowRight") { e.preventDefault(); stepProfile(1); }
+});
+
 const gallery = document.getElementById("gallery");
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightboxImg");
-const jobsEl = document.getElementById("jobs");
 
 function pickInitialLang() {
   const q = new URLSearchParams(location.search).get("lang");
@@ -696,8 +1088,10 @@ function setLang(lang) {
   document.getElementById("heroLogo").src = "assets/logo_" + lang + ".png";
   document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang ? "true" : "false"));
 
-  jobsEl.innerHTML = "";
-  t.jobs.forEach(name => { const li = document.createElement("li"); li.textContent = name; jobsEl.appendChild(li); });
+  LANG = lang;
+  renderJobTabs();
+  renderJobPanel();
+  if (profile.open) renderProfile();
 
   gallery.innerHTML = "";
   for (let i = 1; i <= 6; i++) {
